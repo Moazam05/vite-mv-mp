@@ -9,8 +9,6 @@ export function CartProvider({ children }) {
 
   const [cartProducts, setCartProducts] = useState([]);
 
-  console.log("state", cartProducts);
-
   useEffect(() => {
     const storedProducts = localStorage.getItem("cartProducts");
     if (storedProducts) {
@@ -18,11 +16,6 @@ export function CartProvider({ children }) {
       dispatch(setProducts(JSON.parse(storedProducts)));
     }
   }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
-  //   dispatch(setProducts(cartProducts));
-  // }, [dispatch]);
 
   const addToCart = (product) => {
     // Extract essential product keys

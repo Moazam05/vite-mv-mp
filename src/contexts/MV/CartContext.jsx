@@ -3,28 +3,20 @@ import { createContext, useContext, useEffect, useState } from "react";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartCount, setCartCount] = useState(0);
   const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem("cartProducts");
-    const storedCount = localStorage.getItem("cartCount");
     if (storedProducts) {
       setCartProducts(JSON.parse(storedProducts));
-    }
-    if (storedCount) {
-      setCartCount(parseInt(storedCount));
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
-    localStorage.setItem("cartCount", cartCount.toString());
-  }, [cartProducts, cartCount]);
+  }, [cartProducts]);
 
   const addToCart = (product) => {
-    setCartCount(cartCount + 1);
-
     // Extract essential product keys
     const essentialProduct = {
       id: product.id,
@@ -153,14 +145,14 @@ export function CartProvider({ children }) {
       );
 
       // Update cart count based on remaining products
-      const newCartCount = filteredCartProducts.reduce(
-        (total, vendor) =>
-          total +
-          vendor.products.reduce((sum, product) => sum + product.quantity, 0),
-        0
-      );
+      // const newCartCount = filteredCartProducts.reduce(
+      //   (total, vendor) =>
+      //     total +
+      //     vendor.products.reduce((sum, product) => sum + product.quantity, 0),
+      //   0
+      // );
 
-      setCartCount(newCartCount);
+      // setCartCount(newCartCount);
       setCartProducts(filteredCartProducts);
     }
   };
@@ -189,17 +181,14 @@ export function CartProvider({ children }) {
   };
 
   const emptyCart = () => {
-    setCartCount(0);
     setCartProducts([]);
 
     localStorage.removeItem("cartProducts");
-    localStorage.removeItem("cartCount");
   };
 
   return (
     <CartContext.Provider
       value={{
-        cartCount,
         cartProducts,
         addToCart,
         incrementById,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -19,7 +19,6 @@ import {
   Tooltip,
   Pagination,
 } from "@mui/material";
-import { AiOutlineTable } from "react-icons/ai";
 // Loader Import
 import Loader from "../../CommonComponents/Loader";
 import CustomChip from "../../../../components/MV/CustomChip";
@@ -27,11 +26,9 @@ import { FiShoppingCart } from "react-icons/fi";
 import { MoonLoader } from "react-spinners";
 // Icons Import
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import OffersIcon from "@mui/icons-material/AssessmentOutlined";
 import { TiDocument } from "react-icons/ti";
 
 // React Toastify Imports
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "../../../../contexts/MV/LanguageContext";
 import { baseUrl } from "../../../../constants/MV/api";
@@ -64,12 +61,15 @@ function RFQHistory() {
   const fetchRfqHistory = () => {
     isLoading(true);
     axios
-      .get(`${baseUrl}/mv/api/customer/rfqs?limit=${rowsPerPage}&offset=${page}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-      })
+      .get(
+        `${baseUrl}/mv/api/customer/rfqs?limit=${rowsPerPage}&offset=${page}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
       .then((response) => {
         // console.log("response", response?.data?.results);
         setRfqs(response.data.results);

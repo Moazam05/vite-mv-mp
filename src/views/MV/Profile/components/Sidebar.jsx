@@ -1,5 +1,4 @@
 import { styled } from "@mui/material/styles";
-import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../../MV/styles.css";
 

@@ -1,6 +1,6 @@
 import { styled } from "@mui/system";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // Context Import
 import { useTranslation } from "../../../../contexts/MV/LanguageContext";
@@ -589,7 +589,7 @@ const Wrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Card = styled(Grid)(({ theme }) => ({
+const Card = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
@@ -602,52 +602,6 @@ const CardHeading = styled(Typography)(() => ({
   fontWeight: "600",
   padding: "12px 2px",
   width: "100%",
-}));
-
-const SubHeading = styled(Typography)(() => ({
-  fontSize: "14px",
-  fontWeight: "400",
-}));
-
-const SubCard = styled(Box)(({ theme }) => ({
-  backgroundColor: "#d9d9d9",
-  height: "80px",
-  width: "190px",
-  borderRadius: "8px",
-  display: "flex",
-  alignItems: "start",
-  justifyContent: "start",
-  padding: "8px",
-  [theme.breakpoints.down("sm")]: {
-    width: "45%",
-  },
-}));
-
-const RfqNavWrapper = styled(Grid)(() => ({
-  width: "100%",
-  height: "auto",
-  backgroundColor: "#fff",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "start",
-  alignItems: "center",
-  margin: "10px 0",
-  gap: "10px",
-}));
-
-const CardWrapper = styled(Box)(() => ({
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "start",
-  alignItems: "center",
-  gap: "30px",
-}));
-
-const RfqEditCard = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "start",
-  alignItems: "center",
 }));
 
 const ImageBox = styled(CardMedia)(({ theme }) => ({

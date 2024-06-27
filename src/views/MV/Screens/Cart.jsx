@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Contexts Import
 import { useCart } from "../../../contexts/MV/CartContext";
@@ -42,7 +42,9 @@ const Cart = () => {
       const vendorObj = cartProducts.find((v) => v.vendor.id === vendorId);
       const productObj = vendorObj.products.find((p) => p.id === id);
       toast.warning(
-        `Order limit (${parseFloat(productObj.orderLimit).toFixed(0)}) cannot be exceeded!`
+        `Order limit (${parseFloat(productObj.orderLimit).toFixed(
+          0
+        )}) cannot be exceeded!`
       );
       return;
     }
@@ -54,9 +56,11 @@ const Cart = () => {
   };
 
   const isAnyProductBelowMinQty = cartProducts.some((vendor) =>
-    vendor.products.some((product) => product.quantity < parseFloat(product.minQty))
+    vendor.products.some(
+      (product) => product.quantity < parseFloat(product.minQty)
+    )
   );
-  
+
   const checkToken = () => {
     const token = window.localStorage.getItem("mp-user-token");
 
@@ -74,126 +78,156 @@ const Cart = () => {
         <LoginNotifModal open={loginModalOpen} setOpen={setLoginModalOpen} />
         <Grid container my={5} gap={"40px"} dir={getDirection()}>
           <Grid item md={7.5}>
-          <ProductBox>
-            {cartProducts?.length === 0 ? (
-              <Typography sx={{ textAlign: "center", padding: "15px" }}>
-                {translate("cart.no")}
-              </Typography>
-            ) : (
-              <>
-                <EmptyCartBtn
-                  endIcon={<EmptyCartIcon sx={{ marginRight: "8px" }} />}
-                  variant="outlined"
-                  color="success"
-                  onClick={() => emptyCart()}
-                >
-                  empty cart
-                </EmptyCartBtn>
-                {cartProducts.map((cart) => (
-                  <Box key={cart.vendor.id} 
-                    sx={{ marginBottom: "20px", padding: "20px", border: " 1px solid #DDDDDD", borderRadius: "12px" }}>
-                    <Typography onClick={() => navigate(`/vendordetail/${cart.vendor.profile}`)}
-                      sx={{ fontSize: "12px", fontWeight:"600", marginBottom: "15px", cursor: "pointer", borderBottom: "1px solid #f6f6f6" }}>
-                      {cart.vendor.name}
-                    </Typography>
-                    {cart.products.map((product, index) => {
-                      // Assuming variants data is available as shown in the original code
-                      const variant = product?.variants?.find((v) => v.id === product?.id);
-            
-                      return (
-                        <CartWrapper key={index} item md={12}>
-                          <ImageWrapper>
-                            <ImageBox
-                              component="img"
-                              image={
-                                variant?.variantImage || product.image
-                              }
-                              alt="image"
-                            />
-                          </ImageWrapper>
-                          <Detailbox>
-                            <Heading>
-                              {language === "ar"
-                                ? product.nameAr
-                                : product.nameEn}
-                            </Heading>
-                            <Box
-                              display={"flex"}
-                              justifyContent={"space-between"}
-                              mt={"15px"}
-                            >
+            <ProductBox>
+              {cartProducts?.length === 0 ? (
+                <Typography sx={{ textAlign: "center", padding: "15px" }}>
+                  {translate("cart.no")}
+                </Typography>
+              ) : (
+                <>
+                  <EmptyCartBtn
+                    endIcon={<EmptyCartIcon sx={{ marginRight: "8px" }} />}
+                    variant="outlined"
+                    color="success"
+                    onClick={() => emptyCart()}
+                  >
+                    empty cart
+                  </EmptyCartBtn>
+                  {cartProducts.map((cart) => (
+                    <Box
+                      key={cart.vendor.id}
+                      sx={{
+                        marginBottom: "20px",
+                        padding: "20px",
+                        border: " 1px solid #DDDDDD",
+                        borderRadius: "12px",
+                      }}
+                    >
+                      <Typography
+                        onClick={() =>
+                          navigate(`/vendordetail/${cart.vendor.profile}`)
+                        }
+                        sx={{
+                          fontSize: "12px",
+                          fontWeight: "600",
+                          marginBottom: "15px",
+                          cursor: "pointer",
+                          borderBottom: "1px solid #f6f6f6",
+                        }}
+                      >
+                        {cart.vendor.name}
+                      </Typography>
+                      {cart.products.map((product, index) => {
+                        // Assuming variants data is available as shown in the original code
+                        const variant = product?.variants?.find(
+                          (v) => v.id === product?.id
+                        );
+
+                        return (
+                          <CartWrapper key={index} item md={12}>
+                            <ImageWrapper>
+                              <ImageBox
+                                component="img"
+                                image={variant?.variantImage || product.image}
+                                alt="image"
+                              />
+                            </ImageWrapper>
+                            <Detailbox>
+                              <Heading>
+                                {language === "ar"
+                                  ? product.nameAr
+                                  : product.nameEn}
+                              </Heading>
                               <Box
                                 display={"flex"}
-                                flexDirection={"row"}
-                                alignItems={"center"}
-                                gap={"5px"}
+                                justifyContent={"space-between"}
+                                mt={"15px"}
                               >
-                                <Heading sx={{ color: "#E92E67" }}>
-                                  {product.discountedPrice === null
-                                    ? product.vatOnlinePrice
-                                    : product.discountedPrice}
-                                </Heading>
+                                <Box
+                                  display={"flex"}
+                                  flexDirection={"row"}
+                                  alignItems={"center"}
+                                  gap={"5px"}
+                                >
+                                  <Heading sx={{ color: "#E92E67" }}>
+                                    {product.discountedPrice === null
+                                      ? product.vatOnlinePrice
+                                      : product.discountedPrice}
+                                  </Heading>
+                                </Box>
+                                <QuantityButtons
+                                  size="small"
+                                  aria-label="small outlined button group"
+                                >
+                                  <Button
+                                    onClick={() =>
+                                      handleDecrement(
+                                        product.id,
+                                        product.vendorId
+                                      )
+                                    }
+                                  >
+                                    -
+                                  </Button>
+                                  <Button sx={{ fontWeight: "bold" }}>
+                                    {product.quantity}
+                                  </Button>
+                                  <Button
+                                    onClick={() =>
+                                      handleIncrement(
+                                        product.id,
+                                        product.vendorId
+                                      )
+                                    }
+                                  >
+                                    +
+                                  </Button>
+                                </QuantityButtons>
                               </Box>
-                              <QuantityButtons
-                                size="small"
-                                aria-label="small outlined button group"
-                              >
-                                <Button
-                                  onClick={() => handleDecrement(product.id, product.vendorId)}
-                                >
-                                  -
-                                </Button>
-                                <Button sx={{ fontWeight: "bold" }}>
-                                  {product.quantity}
-                                </Button>
-                                <Button
-                                  onClick={() => handleIncrement(product.id, product.vendorId)}
-                                >
-                                  +
-                                </Button>
-                              </QuantityButtons>
-                            </Box>
-                            {product.quantity < product.minQty && (
-                              <Typography variant="body2" sx={{ color: "red" }}>
-                                Selected Quantity is below the minimum order
-                                limit: {parseFloat(product.minQty).toFixed(0)}
-                              </Typography>
-                            )}
-                            {variant?.variantCombination && (
-                              <Box>
+                              {product.quantity < product.minQty && (
                                 <Typography
-                                  sx={{ fontSize: "14px", color: "#5F6C72" }}
+                                  variant="body2"
+                                  sx={{ color: "red" }}
                                 >
-                                  Variant
+                                  Selected Quantity is below the minimum order
+                                  limit: {parseFloat(product.minQty).toFixed(0)}
                                 </Typography>
-                                <Button
-                                  sx={{
-                                    border: "1px solid #00A9BF",
-                                    textTransform: "none",
-                                    padding: "2px 12px",
-                                    backgroundColor: "#00A9BF",
-                                    color: "#fff",
-                                    margin: "5px 0 10px 0",
-                                    cursor: "auto",
-                                    "&:hover": {
+                              )}
+                              {variant?.variantCombination && (
+                                <Box>
+                                  <Typography
+                                    sx={{ fontSize: "14px", color: "#5F6C72" }}
+                                  >
+                                    Variant
+                                  </Typography>
+                                  <Button
+                                    sx={{
+                                      border: "1px solid #00A9BF",
+                                      textTransform: "none",
+                                      padding: "2px 12px",
                                       backgroundColor: "#00A9BF",
                                       color: "#fff",
-                                    },
-                                  }}
-                                >
-                                  {variant?.variantCombination}
-                                </Button>
-                              </Box>
-                            )}
-                          </Detailbox>
-                        </CartWrapper>
-                      );
-                    })}
-                  </Box>
-                ))}
-              </>
-            )}
-          </ProductBox>
+                                      margin: "5px 0 10px 0",
+                                      cursor: "auto",
+                                      "&:hover": {
+                                        backgroundColor: "#00A9BF",
+                                        color: "#fff",
+                                      },
+                                    }}
+                                  >
+                                    {variant?.variantCombination}
+                                  </Button>
+                                </Box>
+                              )}
+                            </Detailbox>
+                          </CartWrapper>
+                        );
+                      })}
+                    </Box>
+                  ))}
+                </>
+              )}
+            </ProductBox>
           </Grid>
           <Grid
             item

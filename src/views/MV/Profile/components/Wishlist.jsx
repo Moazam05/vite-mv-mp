@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 import axios from "axios";
 
@@ -26,13 +26,7 @@ import { baseUrl } from "../../../../constants/MV/api";
 function Wishlist() {
   const token = window.localStorage.getItem("mp-user-token");
 
-  const {
-    addToCart,
-    incrementById,
-    decrementById,
-    cartProducts,
-    removeFromCart,
-  } = useCart();
+  const { addToCart } = useCart();
 
   const [wishlistItems, setWishlistItems] = useState([]);
 
@@ -62,6 +56,7 @@ function Wishlist() {
         },
       })
       .then((response) => {
+        console.log(response);
         setWishlistItems([]);
       })
       .catch((err) => {

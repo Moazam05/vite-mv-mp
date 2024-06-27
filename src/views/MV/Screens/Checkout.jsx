@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -57,13 +57,13 @@ const Checkout = () => {
   //   variant: product?.product === true ? null : product.id,
   // }));
 
-  const orderProducts = cartProducts.map(item => ({
+  const orderProducts = cartProducts.map((item) => ({
     vendor: item.vendor.id,
-    products: item.products.map(product => ({
+    products: item.products.map((product) => ({
       product: product.id,
       quantity: product.quantity,
-      variant: product?.variants?.length > 0 ? product?.variants[0]?.id : null
-    }))
+      variant: product?.variants?.length > 0 ? product?.variants[0]?.id : null,
+    })),
   }));
 
   const placeOrder = () => {
@@ -309,15 +309,31 @@ const Checkout = () => {
               </Typography>
             ) : (
               cartProducts?.map((cart) => (
-                <Box key={cart.vendor.id} 
-                  sx={{ marginBottom: "20px", padding: "20px", border: " 1px solid #DDDDDD", borderRadius: "12px" }}>
+                <Box
+                  key={cart.vendor.id}
+                  sx={{
+                    marginBottom: "20px",
+                    padding: "20px",
+                    border: " 1px solid #DDDDDD",
+                    borderRadius: "12px",
+                  }}
+                >
                   <Typography
-                    sx={{ fontSize: "12px", fontWeight:"600", marginBottom: "15px", cursor: "pointer", borderBottom: "1px solid #f6f6f6" }}>
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      marginBottom: "15px",
+                      cursor: "pointer",
+                      borderBottom: "1px solid #f6f6f6",
+                    }}
+                  >
                     {cart.vendor.name}
                   </Typography>
                   {cart?.products?.map((product, index) => {
                     // Assuming variants data is available as shown in the original code
-                    const variant = product?.variants?.find((v) => v.id === product?.id);
+                    const variant = product?.variants?.find(
+                      (v) => v.id === product?.id
+                    );
                     return (
                       <Box key={index}>
                         <Box
@@ -349,7 +365,10 @@ const Checkout = () => {
                               flexDirection={"column"}
                               gap={"5px"}
                             >
-                              <Typography fontSize={"13px"} textAlign={"justify"}>
+                              <Typography
+                                fontSize={"13px"}
+                                textAlign={"justify"}
+                              >
                                 {language === "ar"
                                   ? product?.nameAr
                                   : product?.nameEn}
@@ -573,16 +592,6 @@ const Label = styled(Box)(() => ({
   borderRadius: "5px",
 }));
 
-const CardBox = styled(Box)(() => ({
-  padding: "10px",
-  width: "30%",
-  display: "flex",
-  flexDirection: "column",
-  // margin: '15px 0',
-  justifyContent: "center",
-  alignItems: "center",
-}));
-
 const DataBox = styled(Box)(() => ({
   padding: "10px 15px",
   backgroundColor: "#F9F9F9",
@@ -597,10 +606,6 @@ const DataBox = styled(Box)(() => ({
 const DataText = styled(Typography)(() => ({
   fontSize: "13px",
   fontWeight: "400",
-}));
-const ToogleWrapper = styled(Box)(() => ({
-  display: "flex",
-  flexDirection: "column",
 }));
 
 const DiscountWrapper = styled(Box)(() => ({

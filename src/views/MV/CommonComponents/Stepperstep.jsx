@@ -1,8 +1,6 @@
-import * as React from "react";
 import PropTypes from "prop-types";
 
 // Context Import
-import { useTranslation } from "../../../contexts/MV/LanguageContext";
 
 // Import MUI components
 import {
@@ -53,8 +51,6 @@ ColorlibStepIcon.propTypes = {
 const steps = ["Order Placed", "Accepted", "Dispatched", "Delivered"];
 
 const Stepperstep = ({ orderStatus }) => {
-  const { getDirection } = useTranslation();
-
   // Determine active step based on orderStatus
   let activeStep = 1;
 

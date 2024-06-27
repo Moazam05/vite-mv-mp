@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, InputAdornment, TextField } from "@mui/material";
 
 const PrimaryInput = ({

@@ -1,5 +1,5 @@
 import { Box, Container, Grid } from "@mui/material";
-import React from "react";
+
 import styled from "styled-components";
 import Navbar from "../../LandingPage/Components/Navbar";
 import Footer from "../../Footer/Footer";
@@ -7,7 +7,6 @@ import { useTranslation } from "../../../../contexts/MV/LanguageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { formatDate } from "../../../../utils/MV";
-import PetImage from "../../../../assets/BGimage2.webp";
 import { useGetSingleBlogQuery } from "../../../../redux/MV/api/cmsApiSlice";
 import Loader from "../../CommonComponents/Loader";
 import parse from "html-react-parser";
@@ -198,7 +197,7 @@ const SingleBlog = () => {
   );
 };
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   padding: "50px 20px",
   margin: "30px auto",
 }));

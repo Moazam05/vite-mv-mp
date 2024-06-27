@@ -20,7 +20,6 @@ const Tabbar = ({ data, reviews }) => {
 
   const [addReviewModalOpen, setaddReviewModalOpen] = useState(false);
   const [value, setValue] = useState("1");
-  const [loading, setLoading] = useState();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -143,28 +142,24 @@ const Tabbar = ({ data, reviews }) => {
               Write a review
             </Button>
           </Box>
-          {loading ? (
-            <p>Loading reviews...</p>
-          ) : (
-            reviews.map((data, index) => (
-              <ReviewBox key={index}>
-                <Heading>{data?.rated_user.fullname}</Heading>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "start",
-                    alignItems: "start",
-                    gap: "4px",
-                  }}
-                >
-                  {/* Assuming 'value' is a property in the review object */}
-                  <Rating name="read-only" value={data?.rating} readOnly />
-                </Box>
-                <Detail>{data.comment}</Detail>
-              </ReviewBox>
-            ))
-          )}
+          {reviews.map((data, index) => (
+            <ReviewBox key={index}>
+              <Heading>{data?.rated_user.fullname}</Heading>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "start",
+                  alignItems: "start",
+                  gap: "4px",
+                }}
+              >
+                {/* Assuming 'value' is a property in the review object */}
+                <Rating name="read-only" value={data?.rating} readOnly />
+              </Box>
+              <Detail>{data.comment}</Detail>
+            </ReviewBox>
+          ))}
         </TabPanel>
         <TabPanel value="3">
           {language === "ar"

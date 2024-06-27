@@ -1,5 +1,3 @@
-import React from "react";
-
 // Assets Import
 import biokats from "../../assets/biokats.webp";
 import burgess from "../../assets/burgess.webp";
@@ -13,7 +11,7 @@ import gimdog from "../../assets/gimdog.webp";
 import nutram from "../../assets/nutram.webp";
 import Vitakraft from "../../assets/Vitakraft.webp";
 
-import { Container, Box, styled } from "@mui/material";
+import { Container, styled } from "@mui/material";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -96,15 +94,6 @@ const Wrapper = styled(Container)({
   justifyContent: "center",
   gap: "12px",
   backgroundColor: "#fff",
-});
-
-const ImgBox = styled(Box)({
-  // maxWidth: "100%",
-  // height : "auto"
-
-  flex: "0 0 auto",
-  maxWidth: "calc(33.33% - 12px)",
-  height: "auto",
 });
 
 export default Partners;

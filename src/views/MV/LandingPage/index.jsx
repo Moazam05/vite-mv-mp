@@ -3,7 +3,7 @@ import { Container } from "@mui/material";
 
 // Components Import
 import Navbar from "./Components/Navbar";
-import BannersCarousel from "./ComponentsØCarousel";
+import BannersCarousel from "./Components/BannersCarousel";
 import CategoryList from "./Components/CategoryList";
 import BestSeller from "./Components/BestSeller";
 import Recomendation from "./Components/Recomendation";

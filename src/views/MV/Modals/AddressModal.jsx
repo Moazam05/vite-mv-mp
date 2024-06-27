@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 
@@ -125,12 +125,14 @@ function AddressModal({
         },
       })
       .then((response) => {
+        console.log(response);
         toast.success("Address added successfully!");
         setSaving(false);
         setOpen(false);
         fetchUserAddresses();
       })
       .catch((err) => {
+        console.log(err);
         toast.error("Address couldn't be added!");
         setSaving(false);
       });
@@ -148,12 +150,14 @@ function AddressModal({
         },
       })
       .then((response) => {
+        console.log(response);
         toast.success("Address updated successfully!");
         setSaving(false);
         setOpen(false);
         fetchUserAddresses();
       })
       .catch((err) => {
+        console.log(err);
         toast.error("Address couldn't be updated!");
         setSaving(false);
       });

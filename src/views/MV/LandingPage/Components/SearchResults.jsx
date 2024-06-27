@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 // MUI Components Import
@@ -19,7 +19,6 @@ function SearchResults() {
   const { query } = useParams();
 
   const [loading, setLoading] = useState();
-  const [resultsLoaded, setResultsLoaded] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
 
   const searchProducts = () => {
@@ -30,7 +29,6 @@ function SearchResults() {
       })
       .then((response) => {
         setSearchResult(response.data);
-        setResultsLoaded(true);
         setLoading(false);
       })
       .catch(() => {

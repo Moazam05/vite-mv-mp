@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import React, { useState } from "react";
+import { useState } from "react";
 
 // MUI Components Import
 import { Box, Button, Grid, Modal, Rating, Typography } from "@mui/material";
@@ -55,11 +55,13 @@ function AddReviewModal({ open, setOpen, slug }) {
         }
       )
       .then((response) => {
+        console.log(response);
         toast.success("Review added successfully!");
         setSaving(false);
         setOpen(false);
       })
       .catch((err) => {
+        console.log(err);
         toast.error("Review couldn't be added!");
         setSaving(false);
       });

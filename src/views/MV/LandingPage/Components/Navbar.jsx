@@ -1,10 +1,9 @@
 import { styled } from "@mui/material/styles";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../../contexts/MV/CartContext";
 import { useTranslation } from "../../../../contexts/MV/LanguageContext";
-import ChatIcon from "@mui/icons-material/Chat";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 // MUI Components Import
@@ -22,14 +21,12 @@ import {
 } from "@mui/material";
 
 // Assets/Icons Import
-import Logo from "../../../../assets/logo.webp";
 import arabicIcon from "../../../../assets/ksa.webp";
 import englishIcon from "../../../../assets/uk.webp";
 import MenuIcon from "@mui/icons-material/Menu";
 import UserIcon from "@mui/icons-material/Person";
 import CartIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { baseUrl } from "../../../../constants/MV/api";
-import home from "../../../../assets";
 import { useFetchCategoriesQuery } from "../../../../redux/MV/api/landingPageApiSlice";
 import ClassIcon from "@mui/icons-material/Class";
 import { useQoute } from "../../../../contexts/MV/QouteContext";
@@ -107,7 +104,7 @@ function Navbar() {
   const [category, setCategory] = useState([]);
 
   // todo: GET CATEGORIES DATA API CALL
-  const { data, isLoading } = useFetchCategoriesQuery({});
+  const { data } = useFetchCategoriesQuery({});
 
   useEffect(() => {
     if (data) {
@@ -184,7 +181,7 @@ function Navbar() {
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
   };
-  const categories = ["Category 1", "Category 2", "Category 3"];
+  // const categories = ["Category 1", "Category 2", "Category 3"];
   const url = "https://erp-staging.3ndey.com/";
 
   return (
@@ -499,7 +496,7 @@ function Navbar() {
 
 // Styled Components
 
-const NavWrapper = styled(Box)(({ theme }) => ({
+const NavWrapper = styled(Box)(() => ({
   // width: "100%",
   backgroundColor: "#fff",
 }));
@@ -522,14 +519,6 @@ const NavTopbar = styled(Box)(({ theme }) => ({
     gap: "10px",
   },
 }));
-
-const LogoWrapper = styled(Box)({
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "20px",
-});
 
 const AccountVitals = styled(Box)({
   display: "flex",

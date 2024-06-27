@@ -182,7 +182,7 @@ const Blogs = () => {
   );
 };
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   padding: "50px 20px",
   margin: "30px auto",
 }));

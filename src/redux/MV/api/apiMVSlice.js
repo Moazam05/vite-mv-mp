@@ -17,5 +17,5 @@ export const apiMVSlice = createApi({
     },
   }),
   tagTypes: ["RFQ"],
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });

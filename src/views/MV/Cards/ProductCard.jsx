@@ -33,6 +33,7 @@ function truncateString(str, num) {
 }
 
 function ProductCard({ product, id, service }) {
+  console.log("id", id);
   const { translate, getLanguage, getDirection } = useTranslation();
   const {
     addToCart,
@@ -132,7 +133,7 @@ function ProductCard({ product, id, service }) {
   };
 
   const handleIncrementQoute = (id) => {
-    const product = qouteProducts.find((p) => p.id === id);
+    // const product = qouteProducts.find((p) => p.id === id);
     incrementByQouteId(id);
   };
 
@@ -513,7 +514,7 @@ const QuantityButtons = styled(ButtonGroup)(() => ({
   },
 }));
 
-const CartBTN = styled(Button)(({ theme }) => ({
+const CartBTN = styled(Button)(() => ({
   width: "50%",
   height: "50px",
   borderRadius: "10px",
@@ -527,21 +528,7 @@ const CartBTN = styled(Button)(({ theme }) => ({
   backgroundColor: "#178F49",
 }));
 
-const QouteBTN = styled(Button)(({ theme }) => ({
-  width: "50%",
-  height: "50px",
-  borderRadius: "10px",
-  background: "#178F49",
-  marginTop: "5px",
-  fontWeight: "bold",
-  color: "#fff",
-  textTransform: "capitalize",
-  fontSize: "16px",
-  cursor: "pointer",
-  backgroundColor: "#178F49",
-}));
-
-const AvailableBadge = styled(Box)(({ theme }) => ({
+const AvailableBadge = styled(Box)(() => ({
   position: "absolute",
   top: "10px",
   right: "10px",
@@ -553,7 +540,7 @@ const AvailableBadge = styled(Box)(({ theme }) => ({
   fontSize: "12px",
 }));
 
-const DiscountBadge = styled(Box)(({ theme }) => ({
+const DiscountBadge = styled(Box)(() => ({
   position: "absolute",
   top: "10px",
   left: "10px",
@@ -565,7 +552,7 @@ const DiscountBadge = styled(Box)(({ theme }) => ({
   fontSize: "12px",
 }));
 
-const CategoryBox = styled(Box)(({ theme }) => ({
+const CategoryBox = styled(Box)(() => ({
   backgroundColor: "#80c7ff",
   color: " #007ad9 ",
   fontWeight: "bolder",

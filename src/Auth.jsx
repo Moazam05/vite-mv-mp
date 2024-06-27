@@ -34,10 +34,12 @@ const AuthGuard = ({ children }) => {
     if (auth_token) {
       guard(auth_token)
         .then((res) => {
+          console.log(res);
           setIsAuthenticated(true);
           setIsLoading(false);
         })
         .catch((err) => {
+          console.log(err);
           setIsAuthenticated(false);
           setIsLoading(false);
         });

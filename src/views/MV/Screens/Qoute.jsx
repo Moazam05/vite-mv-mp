@@ -175,7 +175,6 @@ const Qoute = () => {
         navigate("/profile/rfq-history");
 
         localStorage.removeItem("qouteProducts");
-        localStorage.removeItem("qouteCount");
       }
       if (create?.error) {
         toast.error("Something went wrong", "error");

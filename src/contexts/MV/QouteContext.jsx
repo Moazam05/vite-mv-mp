@@ -3,28 +3,20 @@ import { createContext, useContext, useEffect, useState } from "react";
 const QouteContext = createContext();
 
 export function QuoteProvider({ children }) {
-  const [qouteCount, setQouteCount] = useState(0);
   const [qouteProducts, setqouteProducts] = useState([]);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem("qouteProducts");
-    const storedCount = localStorage.getItem("qouteCount");
     if (storedProducts) {
       setqouteProducts(JSON.parse(storedProducts));
-    }
-    if (storedCount) {
-      setQouteCount(parseInt(storedCount));
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("qouteProducts", JSON.stringify(qouteProducts));
-    localStorage.setItem("qouteCount", qouteCount.toString());
-  }, [qouteProducts, qouteCount]);
+  }, [qouteProducts]);
 
   const addToQoute = (product) => {
-    setQouteCount(qouteCount + 1);
-
     // Check if the product already exists in the cart
     const existingProduct = qouteProducts.find((p) => p.id === product.id);
 
@@ -78,13 +70,6 @@ export function QuoteProvider({ children }) {
       (product) => product.id !== id
     );
 
-    // Calculate the new cart count by summing the quantities of remaining products
-    const newQouteCount = updatedqouteProducts.reduce(
-      (total, product) => total + product.quantity,
-      0
-    );
-
-    setQouteCount(newQouteCount);
     setqouteProducts(updatedqouteProducts);
   };
 
@@ -98,17 +83,14 @@ export function QuoteProvider({ children }) {
   };
 
   const emptyQoute = () => {
-    setQouteCount(0);
     setqouteProducts([]);
 
     localStorage.removeItem("qouteProducts");
-    localStorage.removeItem("qouteCount");
   };
 
   return (
     <QouteContext.Provider
       value={{
-        qouteCount,
         qouteProducts,
         addToQoute,
         incrementByQouteId,

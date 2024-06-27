@@ -1,23 +1,30 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setProducts } from "../../redux/MV/cart/cartSlice";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const dispatch = useDispatch();
-
+  const [cartCount, setCartCount] = useState(0);
   const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem("cartProducts");
+    const storedCount = localStorage.getItem("cartCount");
     if (storedProducts) {
       setCartProducts(JSON.parse(storedProducts));
-      dispatch(setProducts(JSON.parse(storedProducts)));
+    }
+    if (storedCount) {
+      setCartCount(parseInt(storedCount));
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+    localStorage.setItem("cartCount", cartCount.toString());
+  }, [cartProducts, cartCount]);
+
   const addToCart = (product) => {
+    setCartCount(cartCount + 1);
+
     // Extract essential product keys
     const essentialProduct = {
       id: product.id,
@@ -56,26 +63,11 @@ export function CartProvider({ children }) {
       const updatedCartProducts = [...cartProducts];
       updatedCartProducts[vendorIndex] = vendor;
       setCartProducts(updatedCartProducts);
-      dispatch(setProducts(updatedCartProducts));
-      localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
     } else {
       setCartProducts([
         ...cartProducts,
         { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
       ]);
-      dispatch(
-        setProducts([
-          ...cartProducts,
-          { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
-        ])
-      );
-      localStorage.setItem(
-        "cartProducts",
-        JSON.stringify([
-          ...cartProducts,
-          { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
-        ])
-      );
     }
   };
 
@@ -105,11 +97,6 @@ export function CartProvider({ children }) {
       if (productIndex !== -1) {
         updatedCartProducts[vendorIndex].products[productIndex].quantity += 1;
         setCartProducts(updatedCartProducts);
-        dispatch(setProducts(updatedCartProducts));
-        localStorage.setItem(
-          "cartProducts",
-          JSON.stringify(updatedCartProducts)
-        );
       }
     }
   };
@@ -137,8 +124,6 @@ export function CartProvider({ children }) {
 
       updatedCartProducts[vendorIndex] = updatedVendor;
       setCartProducts(updatedCartProducts);
-      dispatch(setProducts(updatedCartProducts));
-      localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
 
       // Optionally, remove the vendor after state update (if state management allows)
       if (updatedVendor.products.length === 0) {
@@ -168,20 +153,15 @@ export function CartProvider({ children }) {
       );
 
       // Update cart count based on remaining products
-      // const newCartCount = filteredCartProducts.reduce(
-      //   (total, vendor) =>
-      //     total +
-      //     vendor.products.reduce((sum, product) => sum + product.quantity, 0),
-      //   0
-      // );
-
-      // setCartCount(newCartCount);
-      setCartProducts(filteredCartProducts);
-      dispatch(setProducts(filteredCartProducts));
-      localStorage.setItem(
-        "cartProducts",
-        JSON.stringify(filteredCartProducts)
+      const newCartCount = filteredCartProducts.reduce(
+        (total, vendor) =>
+          total +
+          vendor.products.reduce((sum, product) => sum + product.quantity, 0),
+        0
       );
+
+      setCartCount(newCartCount);
+      setCartProducts(filteredCartProducts);
     }
   };
 
@@ -209,14 +189,17 @@ export function CartProvider({ children }) {
   };
 
   const emptyCart = () => {
+    setCartCount(0);
     setCartProducts([]);
-    dispatch(setProducts([]));
+
     localStorage.removeItem("cartProducts");
+    localStorage.removeItem("cartCount");
   };
 
   return (
     <CartContext.Provider
       value={{
+        cartCount,
         cartProducts,
         addToCart,
         incrementById,
@@ -233,7 +216,6 @@ export function CartProvider({ children }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useCart() {
   return useContext(CartContext);
 }

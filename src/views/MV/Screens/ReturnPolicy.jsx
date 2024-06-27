@@ -104,7 +104,7 @@ function ReturnPolicy() {
 
 // Styled Components
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",

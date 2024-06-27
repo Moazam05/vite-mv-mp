@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Context Import
@@ -67,7 +67,6 @@ const ProductDetail = () => {
   const [productDetail, setProductDetail] = useState([]);
   const [productVariants, setProductVariants] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState({});
-  const [loading, setLoading] = useState();
   const token = window.localStorage.getItem("mp-user-token");
   const [reviews, setReviews] = useState([]);
 
@@ -76,7 +75,6 @@ const ProductDetail = () => {
   const navigate = useNavigate();
 
   const fetchReviews = async () => {
-    setLoading(true);
     try {
       const response = await axios.get(`${baseUrl}/api/ratings/${id}`, {
         headers: {
@@ -85,10 +83,8 @@ const ProductDetail = () => {
         },
       });
       setReviews(response.data);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching reviews details:", error);
-      setLoading(false);
     }
   };
 
@@ -199,7 +195,7 @@ const ProductDetail = () => {
   };
 
   const handleIncrementQoute = (id) => {
-    const product = qouteProducts.find((p) => p.id === id);
+    // const product = qouteProducts.find((p) => p.id === id);
     incrementByQouteId(id);
   };
 
@@ -616,7 +612,7 @@ const ProductDetail = () => {
 
 // Styled Components
 
-const Container = styled(Box)(({ theme }) => ({}));
+const Container = styled(Box)(() => ({}));
 
 const Heading = styled(Typography)(({ theme }) => ({
   fontSize: "13px",
@@ -643,7 +639,7 @@ const ProductData = styled(Grid)(({ theme }) => ({
   },
 }));
 
-const Shop = styled(Box)(({ theme }) => ({
+const Shop = styled(Box)(() => ({
   display: "flex",
   flexDirection: "row",
   justifyContent: "start",
@@ -652,7 +648,7 @@ const Shop = styled(Box)(({ theme }) => ({
   cursor: "pointer",
 }));
 
-const Text = styled(Typography)(({ theme }) => ({
+const Text = styled(Typography)(() => ({
   fontSize: "15px",
   color: "black",
   fontWeight: "bold",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Container, Typography, styled } from "@mui/material";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";
 import Navbar from "../LandingPage/Components/Navbar";
@@ -6,11 +6,11 @@ import Footer from "../Footer/Footer";
 import { useGetStaticPagesQuery } from "../../../redux/MV/api/cmsApiSlice";
 import Loader from "../CommonComponents/Loader";
 import parse from "html-react-parser";
-import { formatDate, formatDateString } from "../../../utils/MV";
+import { formatDate } from "../../../utils/MV";
 
 function PrivacyPolicy() {
-  const { changeLanguage, getLanguage, getDirection } = useTranslation();
-  const { translate } = useTranslation();
+  const { getLanguage, getDirection } = useTranslation();
+  // const { translate } = useTranslation();
   const language = getLanguage();
 
   const [privacyData, setPrivacyData] = useState({});
@@ -138,7 +138,7 @@ function PrivacyPolicy() {
 
 // Styled Components
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -148,7 +148,7 @@ const Wrapper = styled(Container)(({ theme }) => ({
   margin: "30px auto",
 }));
 
-const DataWrapper = styled(Box)(({ theme }) => ({
+const DataWrapper = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -166,11 +166,6 @@ const DataText = styled(Typography)({
   fontWeight: "500",
   color: "#000",
   textAlign: "start",
-});
-const SubHeading = styled(Typography)({
-  fontSize: "16px",
-  fontWeight: "700",
-  color: "#000",
 });
 
 export default PrivacyPolicy;

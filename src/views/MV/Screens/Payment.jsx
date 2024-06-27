@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -27,11 +27,8 @@ import { useTranslation } from "../../../contexts/MV/LanguageContext";
 import { baseUrl } from "../../../constants/MV/api";
 
 function Payment() {
-  const { translate, getLanguage, getDirection } = useTranslation();
-  const [loading, setLoading] = useState(false);
-  const token = window.localStorage.getItem("mp-user-token");
+  const { translate, getDirection } = useTranslation();
   const { id } = useParams();
-  const [paymentForm, setPaymentForm] = useState();
 
   const [toggleState, setToggleState] = useState([false, true]); // Set "Cash on Delivery" (index 1) to true by default
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // MUI Components Import
@@ -8,13 +8,10 @@ import {
   Button,
   Chip,
   FormControl,
-  FormControlLabel,
   Grid,
   IconButton,
   InputBase,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   Stack,
   TextField,
@@ -29,7 +26,6 @@ import ProductCard from "../Cards/ProductCard";
 import SearchIcon from "@mui/icons-material/Search";
 
 // Loader Import
-import { MoonLoader } from "react-spinners";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";
 
 import { baseUrl } from "../../../constants/MV/api";
@@ -37,16 +33,14 @@ import Navbar from "../LandingPage/Components/Navbar";
 import { useLoaderContext } from "../../../contexts/MV/LoaderContext";
 
 function ProductsListing() {
-
   const { translate, getLanguage, getDirection } = useTranslation();
   const language = getLanguage();
 
-  const { handleLoader } = useLoaderContext()
+  const { handleLoader } = useLoaderContext();
 
   const { catId } = useParams();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState();
   const [activeCategory, setActiveCategory] = useState(catId);
   const [searchHistory, setSearchHistory] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -59,7 +53,6 @@ function ProductsListing() {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [selectedMinRange, setSelectedMinRange] = useState(null);
   const [selectedMaxRange, setSelectedMaxRange] = useState(null);
-
 
   const fetchCategories = () => {
     handleLoader(true);
@@ -116,6 +109,7 @@ function ProductsListing() {
         handleLoader(false);
       })
       .catch((err) => {
+        console.log(err);
         handleLoader(false);
       });
   };
@@ -176,7 +170,6 @@ function ProductsListing() {
     setActiveCategory(catId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catId]);
-
 
   return (
     <>
@@ -335,17 +328,7 @@ function ProductsListing() {
         <FiltersWrapper item lg={3} md={4} sm={4} xs={12}>
           <FilterBox my={3} dir={getDirection()}>
             <FilterHeading>{translate("productlisting.sub")}</FilterHeading>
-            {loading ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                <MoonLoader color="#000" size={20} />
-              </Box>
-            ) : catSubcats.length === 0 ? (
+            {catSubcats.length === 0 ? (
               <Typography sx={{ color: "#878787", fontSize: "18px" }}>
                 {translate("productlisting.no")}
               </Typography>
@@ -433,19 +416,7 @@ function ProductsListing() {
           </FilterBox>
         </FiltersWrapper>
         <ProductsWrapper item lg={9} md={8} sm={8} xs={12}>
-          {loading ? (
-            <Box
-              sx={{
-                width: "100%",
-                height: "80vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <MoonLoader color="#000" size={40} />
-            </Box>
-          ) : categoryProducts.length === 0 ? (
+          {categoryProducts.length === 0 ? (
             <Typography> {translate("productlisting.this")}</Typography>
           ) : (
             categoryProducts?.map((product, index) => (

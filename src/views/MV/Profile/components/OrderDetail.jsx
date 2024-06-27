@@ -1,6 +1,6 @@
 import { styled } from "@mui/system";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Context Import
@@ -8,8 +8,6 @@ import { useTranslation } from "../../../../contexts/MV/LanguageContext";
 
 // MUI Components Import
 import { Box, Button, Grid, Typography } from "@mui/material";
-
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 
 // Components Import
 import Stepperstep from "../../CommonComponents/Stepperstep";
@@ -189,7 +187,7 @@ const OrderDetail = () => {
                                 (item?.product.discounted_price === null
                                   ? item?.product.vat_onlinePrice
                                   : item?.product.discounted_price) *
-                                item?.quantity || 0
+                                  item?.quantity || 0
                               ).toLocaleString(undefined, {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
@@ -295,33 +293,6 @@ const Wrapper = styled(Box)(({ theme }) => ({
     width: "auto",
   },
 }));
-const SellerSection = styled(Grid)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: 'center',
-  justifyContent: 'start',
-  gap: '20px',
-  border: "1px solid #decae8",
-  borderRadius: '10px',
-  padding: "20px",
-  [theme.breakpoints.down("sm")]: {
-    padding: "20px 0 0 0",
-  },
-}));
-const SellerData = styled(Grid)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-}));
-const SellerHeading = styled(Typography)(() => ({
-  fontSize: "16px",
-  fontWeight: "700",
-}));
-const SellerSubheading = styled(Typography)(() => ({
-  fontSize: "16px",
-  fontWeight: "600",
-}));
-
-
 
 const Card = styled(Grid)(({ theme }) => ({
   display: "flex",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -89,6 +89,7 @@ function OrderHistory() {
         isLoading(false);
       })
       .catch((error) => {
+        console.log("Error", error);
         toast.error("Error downloading Invoice!");
         isLoading(false);
       });

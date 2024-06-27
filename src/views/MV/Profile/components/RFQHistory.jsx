@@ -34,14 +34,6 @@ import { useTranslation } from "../../../../contexts/MV/LanguageContext";
 import { baseUrl } from "../../../../constants/MV/api";
 import { FiSave } from "react-icons/fi";
 
-const statusColor = {
-  1: "#BCFFB6",
-  2: "#add8e6",
-  3: "#FF0000",
-  4: "#FFF6A9",
-  5: "#67C6E3",
-};
-
 function RFQHistory() {
   const { translate, getDirection } = useTranslation();
 
@@ -56,7 +48,6 @@ function RFQHistory() {
   const [loading, isLoading] = useState(false);
   const [selectedRFQ, setSelectedRFQ] = useState("");
   const [loadingTwo, setLoaderTwo] = useState(false);
-  const [RFQResponse, setRFQResponse] = useState("");
 
   const fetchRfqHistory = () => {
     isLoading(true);
@@ -150,7 +141,6 @@ function RFQHistory() {
       });
 
       if (res) {
-        setRFQResponse(res?.data);
         fetchRfqHistory();
         setLoaderTwo(false);
         navigate(`/profile/rfq-good-receipt/${res?.data?.uuid}`);

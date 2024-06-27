@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 // MUI Components Import
 import { Container, Box, Typography } from "@mui/material";
@@ -11,8 +11,7 @@ import { useFetchBestSellersQuery } from "../../../../redux/MV/api/landingPageAp
 function BestSeller() {
   const [bestSellers, setBestSellers] = useState([]);
   const { translate } = useTranslation();
-  const { language, changeLanguage, getLanguage, getDirection } =
-    useTranslation();
+  const { getDirection } = useTranslation();
 
   // todo: GET BEST SELLERS API CALL
   const { data, isLoading } = useFetchBestSellersQuery({});
@@ -55,7 +54,13 @@ function BestSeller() {
           <MoonLoader color="#000" size={20} />
         </Box>
       ) : (
-        <BestProductsWrapper sx={bestSellers?.length < 6 ? {justifyContent: "center",}: {justifyContent: "flex-start",}}>
+        <BestProductsWrapper
+          sx={
+            bestSellers?.length < 6
+              ? { justifyContent: "center" }
+              : { justifyContent: "flex-start" }
+          }
+        >
           {bestSellers.map((product, index) => (
             <ProductCard key={index} product={product} id={product.prodId} />
           ))}
@@ -67,7 +72,7 @@ function BestSeller() {
 
 // Styled Components
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "column",
   // justifyContent: 'center',
@@ -76,7 +81,7 @@ const Wrapper = styled(Container)(({ theme }) => ({
   padding: "50px 0",
   margin: "30px 0",
   backgroundColor: "#fff",
-  width: '100%'
+  width: "100%",
 }));
 
 const Heading = styled(Typography)({
@@ -90,35 +95,35 @@ const BestProductsWrapper = styled(Box)(({ theme }) => ({
   flexDirection: "row",
   justifyContent: "flex-start",
   width: "100%",
-  height: 'auto',
+  height: "auto",
   overflowX: "auto", // Ensure horizontal scroll for the container
   overflowY: "hidden", // Hide vertical overflow
   padding: "0px",
-  '& > *': {
-      flex: "0 0 auto", 
+  "& > *": {
+    flex: "0 0 auto",
+    minWidth: "230px",
+  },
+
+  "&::-webkit-scrollbar": {
+    height: "8px", // Adjust the height of the scrollbar
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "#888", // Color of the scrollbar thumb
+    borderRadius: "10px", // Rounded corners for the scrollbar thumb
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    background: "#555", // Color when hovering over the scrollbar thumb
+  },
+
+  [theme.breakpoints.down("sm")]: {
+    justifyContent: "flex-start",
+    flexWrap: "nowrap",
+    overflowX: "auto",
+    "& > *": {
+      flex: "0 0 auto",
       minWidth: "230px",
+    },
   },
-
-  '&::-webkit-scrollbar': {
-      height: '8px', // Adjust the height of the scrollbar
-  },
-  '&::-webkit-scrollbar-thumb': {
-      background: '#888', // Color of the scrollbar thumb
-      borderRadius: '10px', // Rounded corners for the scrollbar thumb
-  },
-  '&::-webkit-scrollbar-thumb:hover': {
-      background: '#555', // Color when hovering over the scrollbar thumb
-  },
-
-  [theme.breakpoints.down('sm')]: {
-      justifyContent: "flex-start", 
-      flexWrap: "nowrap",
-      overflowX: "auto", 
-      '& > *': {
-          flex: "0 0 auto",
-          minWidth: "230px",
-      },
-  }
 }));
 
 export default BestSeller;

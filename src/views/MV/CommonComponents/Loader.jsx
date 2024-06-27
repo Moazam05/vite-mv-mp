@@ -1,13 +1,12 @@
-import React from 'react'
-import '../../../index.css'
+import "../../../index.css";
 
 function Loader() {
-    return (
-        <div className="loader">
-            <div className="loading-spinner"></div>
-            <span>Please wait...</span>
-        </div>
-    )
+  return (
+    <div className="loader">
+      <div className="loading-spinner"></div>
+      <span>Please wait...</span>
+    </div>
+  );
 }
 
-export default Loader
+export default Loader;

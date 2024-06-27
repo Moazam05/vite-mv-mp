@@ -1,4 +1,3 @@
-import React from "react";
 import parse from "html-react-parser";
 import { Box, Grid } from "@mui/material";
 import "react-quill/dist/quill.snow.css";

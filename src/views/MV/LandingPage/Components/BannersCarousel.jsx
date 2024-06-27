@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // MUI Components Import
 import { Container, styled } from "@mui/material";
 // Import Swiper React components

@@ -280,7 +280,7 @@ const Footer = () => {
   );
 };
 
-const Text = styled(Typography)(({ theme }) => ({
+const Text = styled(Typography)(() => ({
   fontSize: "16px",
   color: "#fff",
   fontWeight: "700",

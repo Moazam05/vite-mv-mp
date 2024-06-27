@@ -1,5 +1,4 @@
 import { styled } from "@mui/material/styles";
-import React from "react";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";
 // MUI Components Import
 import { Box, FormControl, MenuItem, Select } from "@mui/material";
@@ -79,7 +78,7 @@ function LanguageButton() {
 
 // Styled Components
 
-const Wrapper = styled(Box)(({ theme }) => ({
+const Wrapper = styled(Box)(() => ({
   width: "40%",
   display: "flex",
   alignItems: "flex-start",

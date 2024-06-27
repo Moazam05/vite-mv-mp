@@ -147,7 +147,6 @@ const Checkout = () => {
   useEffect(() => {
     fetchBillingAddress();
     fetchShippingAddress();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -220,7 +220,6 @@ const ProductDetail = () => {
   useEffect(() => {
     fetchProductDetails();
     fetchReviews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleVariant = (combination) => {
@@ -256,7 +255,6 @@ const ProductDetail = () => {
         setSelectedImageIndex(0);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVariant]);
 
   const allKeys = productVariants?.reduce((keys, variant) => {

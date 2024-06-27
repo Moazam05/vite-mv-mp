@@ -168,7 +168,6 @@ function ProductsListing() {
     fetchCategoryProducts();
     fetchCatSubcategories();
     setActiveCategory(catId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catId]);
 
   return (

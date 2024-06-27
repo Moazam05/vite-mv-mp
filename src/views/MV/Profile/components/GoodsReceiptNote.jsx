@@ -81,7 +81,6 @@ const GoodsReceiptNote = () => {
         products: temp,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const styleOne = {

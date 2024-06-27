@@ -4,7 +4,7 @@ export const apiMVSlice = createApi({
   reducerPath: "api",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_MV_API_URL,
+    baseUrl: import.meta.env.REACT_APP_MV_API_URL,
     prepareHeaders: (headers, { getState }) => {
       const token =
         getState().auth?.user?.token || localStorage.getItem("mp-user-token");

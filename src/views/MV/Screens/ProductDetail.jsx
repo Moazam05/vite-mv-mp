@@ -32,7 +32,7 @@ import Navbar from "../LandingPage/Components/Navbar";
 import ProductImagesCarousel from "../Carousels/ProductImagesCarousel";
 import Tabbar from "../CommonComponents/Tabbar";
 import Footer from "../Footer/Footer";
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import { useQoute } from "../../../contexts/MV/QouteContext";
 
 const img = [Urway, Checkout, Paypal, Mada, amazon, world];
@@ -110,23 +110,28 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const productInCart = cartProducts.some((vendorItem) =>
-      vendorItem.products.some((productItem) => productItem.id === productDetail.id)
+      vendorItem.products.some(
+        (productItem) => productItem.id === productDetail.id
+      )
     );
-  
+
     if (productInCart) {
       const foundProduct = cartProducts.find((vendorItem) =>
-        vendorItem.products.some((productItem) => productItem.id === productDetail.id)
+        vendorItem.products.some(
+          (productItem) => productItem.id === productDetail.id
+        )
       );
-      const productQuantity = foundProduct.products.find((productItem) => productItem.id === productDetail.id).quantity;
-  
+      const productQuantity = foundProduct.products.find(
+        (productItem) => productItem.id === productDetail.id
+      ).quantity;
+
       setQuantity(productQuantity);
       setIsInCartState(true);
     } else {
       setQuantity(0);
       setIsInCartState(false);
     }
-
-  }, [productDetail, cartProducts]); 
+  }, [productDetail, cartProducts]);
 
   const handleAddToCart = () => {
     addToCart(productDetail);
@@ -137,7 +142,9 @@ const ProductDetail = () => {
       const vendorObj = cartProducts.find((v) => v.vendor.id === vendorId);
       const productObj = vendorObj.products.find((p) => p.id === id);
       toast.warning(
-        `Order limit (${parseFloat(productObj.orderLimit).toFixed(0)}) cannot be exceeded!`
+        `Order limit (${parseFloat(productObj.orderLimit).toFixed(
+          0
+        )}) cannot be exceeded!`
       );
       return;
     }
@@ -147,21 +154,26 @@ const ProductDetail = () => {
   const handleDecrement = (id, vendorId) => {
     if (isInCartState) {
       decrementById(id, vendorId);
-      const updatedQuantity = cartProducts.find(
-        (item) => item.vendor.id === vendorId && item.products.some((p) => p.id === id)
-      )?.products.find((p) => p.id === id)?.quantity;
+      const updatedQuantity = cartProducts
+        .find(
+          (item) =>
+            item.vendor.id === vendorId &&
+            item.products.some((p) => p.id === id)
+        )
+        ?.products.find((p) => p.id === id)?.quantity;
       if (updatedQuantity <= 0) {
         const vendor = cartProducts.find(
-          (item) => item.vendor.id === vendorId && item.products.some((p) => p.id === id)
+          (item) =>
+            item.vendor.id === vendorId &&
+            item.products.some((p) => p.id === id)
         );
         if (vendor && vendor.products.length === 0) {
           removeFromCart(id, vendorId);
-          setIsInCartState(false); 
+          setIsInCartState(false);
         }
       }
     }
   };
-
 
   // ADD TO QOUTE
 
@@ -209,9 +221,6 @@ const ProductDetail = () => {
     }
   };
 
-
-
-
   useEffect(() => {
     fetchProductDetails();
     fetchReviews();
@@ -254,7 +263,6 @@ const ProductDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVariant]);
 
-
   const allKeys = productVariants?.reduce((keys, variant) => {
     if (!variant?.variants) return keys;
     Object?.keys(variant.variants).forEach((key) => {
@@ -278,11 +286,7 @@ const ProductDetail = () => {
           />
         </Grid>
 
-        <ProductData
-          item
-          sm={11}
-          md={5.9}
-        >
+        <ProductData item sm={11} md={5.9}>
           <Ratebox width={"100%"} display={"flex"} alignItems={"center"}>
             <StarRatings
               rating={4}
@@ -306,9 +310,26 @@ const ProductDetail = () => {
             </Typography>
           </Title>
 
-          <Shop onClick={() => navigate(`/vendordetail/${productDetail?.user_profile.slug}`)} >
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '25px', width: '25px', borderRadius: '50%', border: '1px solid #e1e3eb', backgroundColor: "#ff98" }}>
-              <StorefrontOutlinedIcon sx={{ fontSize: '16px', color: '#009444' }} />
+          <Shop
+            onClick={() =>
+              navigate(`/vendordetail/${productDetail?.user_profile.slug}`)
+            }
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "25px",
+                width: "25px",
+                borderRadius: "50%",
+                border: "1px solid #e1e3eb",
+                backgroundColor: "#ff98",
+              }}
+            >
+              <StorefrontOutlinedIcon
+                sx={{ fontSize: "16px", color: "#009444" }}
+              />
             </Box>
 
             <Typography fontSize={17} color={"black"} fontWeight={"700"}>
@@ -317,7 +338,6 @@ const ProductDetail = () => {
           </Shop>
 
           <GridItems>
-
             <Items item my={1} md={6}>
               <Typography fontWeight={"bold"} fontSize={14} color={"#666"}>
                 {translate("productdetail.sku")}{" "}
@@ -325,8 +345,7 @@ const ProductDetail = () => {
               </Typography>
               <Typography fontWeight={"bold"} fontSize={14} color={"#666"}>
                 {translate("productdetail.brand")}{" "}
-                <span style={{ color: "black", }} >
-                  {productDetail?.brand}</span>
+                <span style={{ color: "black" }}>{productDetail?.brand}</span>
               </Typography>
             </Items>
             <Items item my={1} md={6}>
@@ -347,7 +366,6 @@ const ProductDetail = () => {
                 </span>
               </Typography>
             </Items>
-
           </GridItems>
           <Box
             display={"flex"}
@@ -373,8 +391,8 @@ const ProductDetail = () => {
                 >
                   {productDetail?.vat_onlinePrice} SAR
                 </Typography>
-                <VarientBox >
-                  <VarientText >
+                <VarientBox>
+                  <VarientText>
                     {productDetail?.discount_type === 1
                       ? productDetail.discount + " % OFF"
                       : productDetail.discount + " SAR OFF"}
@@ -443,23 +461,23 @@ const ProductDetail = () => {
                                 padding: "2px 12px",
                                 backgroundColor:
                                   selectedVariant?.variantCombination ===
-                                    combination
+                                  combination
                                     ? "#00A9BF"
                                     : "white",
                                 color:
                                   selectedVariant?.variantCombination ===
-                                    combination
+                                  combination
                                     ? "white"
                                     : "#00A9BF",
                                 "&:hover": {
                                   backgroundColor:
                                     selectedVariant?.variantCombination ===
-                                      combination
+                                    combination
                                       ? "#00A9BF"
                                       : "white",
                                   color:
                                     selectedVariant?.variantCombination ===
-                                      combination
+                                    combination
                                       ? "white"
                                       : "#00A9BF",
                                 },
@@ -493,7 +511,10 @@ const ProductDetail = () => {
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDecrement(productDetail.id, productDetail.user_profile.id);
+                          handleDecrement(
+                            productDetail.id,
+                            productDetail.user_profile.id
+                          );
                         }}
                       >
                         -
@@ -502,7 +523,10 @@ const ProductDetail = () => {
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleIncrement(productDetail.id, productDetail.user_profile.id);
+                          handleIncrement(
+                            productDetail.id,
+                            productDetail.user_profile.id
+                          );
                         }}
                       >
                         +
@@ -535,7 +559,9 @@ const ProductDetail = () => {
                       >
                         -
                       </Button>
-                      <Button sx={{ fontWeight: "bold" }}>{qouteQuantity}</Button>
+                      <Button sx={{ fontWeight: "bold" }}>
+                        {qouteQuantity}
+                      </Button>
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -557,8 +583,6 @@ const ProductDetail = () => {
                     </CartBTN>
                   </>
                 )}
-
-
               </ButtonWrapper>
             </Box>
           )}
@@ -609,23 +633,23 @@ const Wrapper = styled(Grid)(({ theme }) => ({
   },
 }));
 const ProductData = styled(Grid)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
   [theme.breakpoints.down("md")]: {
     paddingInline: "10px",
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
 const Shop = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'start',
-  alignItems: 'center',
-  gap: '10px',
-  cursor: 'pointer'
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "start",
+  alignItems: "center",
+  gap: "10px",
+  cursor: "pointer",
 }));
 
 const Text = styled(Typography)(({ theme }) => ({
@@ -654,9 +678,8 @@ const VarientText = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     fontSize: "10px",
     fontWeight: "500",
-    textAlign: "center"
+    textAlign: "center",
   },
-
 }));
 
 const CartBTN = styled(Button)(({ theme }) => ({
@@ -704,11 +727,10 @@ const ImageBox = styled(Box)(({ theme }) => ({
   borderRadius: "15px",
   border: ".5px solid #009444",
   [theme.breakpoints.down("sm")]: {
-    width: "auto",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    width: '90%'
+    width: "90%",
   },
 }));
 const ImageWrapper = styled(Box)(({ theme }) => ({

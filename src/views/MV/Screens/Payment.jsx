@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useParams } from "react-router-dom";
-import { MoonLoader } from "react-spinners";
 
 // Import the images
 import CardsImgs from "../../../assets/cards.webp";
@@ -23,8 +21,6 @@ import {
 
 // import icons
 import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 import Navbar from "../LandingPage/Components/Navbar";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";
@@ -41,8 +37,8 @@ function Payment() {
   const navigate = useNavigate();
 
   const handlePayment = async () => {
-    window.open(`${baseUrl}/api/payfort/payment/${id}`, '_blank');
-  }
+    window.open(`${baseUrl}/api/payfort/payment/${id}`, "_blank");
+  };
 
   const handleToggleChange = (index) => {
     const updatedToggleState = toggleState.map((state, i) =>
@@ -50,7 +46,6 @@ function Payment() {
     );
     setToggleState(updatedToggleState);
   };
-
 
   return (
     <>
@@ -213,7 +208,6 @@ const CardHeading = styled(Typography)(() => ({
 }));
 
 const CardBox = styled(Box)(() => ({
-  padding: "10px",
   width: "100%",
   display: "flex",
   flexDirection: "row",

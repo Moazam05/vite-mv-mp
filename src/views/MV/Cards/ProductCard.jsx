@@ -22,7 +22,7 @@ import { useCart } from "../../../contexts/MV/CartContext";
 import { useQoute } from "../../../contexts/MV/QouteContext";
 import CartIcon from "@mui/icons-material/ShoppingCartOutlined";
 import ChatIcon from "@mui/icons-material/Chat";
-import ArticleIcon from '@mui/icons-material/Article';
+import ArticleIcon from "@mui/icons-material/Article";
 import { MdOutlineMedicalServices } from "react-icons/md";
 
 // Default Image import
@@ -54,19 +54,20 @@ function ProductCard({ product, id, service }) {
     decrementByQouteId,
     qouteProducts,
     removeFromQoute,
-  } = useQoute(); 
+  } = useQoute();
 
   const getCartItemQuantity = () => {
     const vendorItem = cartProducts.find((vendorItem) =>
       vendorItem.products.some((productItem) => productItem.id === product.id)
     );
     if (vendorItem) {
-      const productItem = vendorItem.products.find((item) => item.id === product.id);
+      const productItem = vendorItem.products.find(
+        (item) => item.id === product.id
+      );
       return productItem ? productItem.quantity : 0;
     }
     return 0;
   };
-  
 
   const handleAddToCart = () => {
     addToCart({
@@ -83,7 +84,9 @@ function ProductCard({ product, id, service }) {
       const vendorObj = cartProducts.find((v) => v.vendor.id === vendorId);
       const productObj = vendorObj.products.find((p) => p.id === id);
       toast.warning(
-        `Order limit (${parseFloat(productObj.orderLimit).toFixed(0)}) cannot be exceeded!`
+        `Order limit (${parseFloat(productObj.orderLimit).toFixed(
+          0
+        )}) cannot be exceeded!`
       );
       return;
     }
@@ -93,21 +96,27 @@ function ProductCard({ product, id, service }) {
   const handleDecrement = (id, vendorId) => {
     if (isInCartState) {
       decrementById(id, vendorId);
-      const updatedQuantity = cartProducts.find(
-        (item) => item.vendor.id === vendorId && item.products.some((p) => p.id === id)
-      )?.products.find((p) => p.id === id)?.quantity;
+      const updatedQuantity = cartProducts
+        .find(
+          (item) =>
+            item.vendor.id === vendorId &&
+            item.products.some((p) => p.id === id)
+        )
+        ?.products.find((p) => p.id === id)?.quantity;
       if (updatedQuantity <= 0) {
         const vendor = cartProducts.find(
-          (item) => item.vendor.id === vendorId && item.products.some((p) => p.id === id)
+          (item) =>
+            item.vendor.id === vendorId &&
+            item.products.some((p) => p.id === id)
         );
         if (vendor && vendor.products.length === 0) {
           removeFromCart(id, vendorId);
-          setIsInCartState(false); 
+          setIsInCartState(false);
         }
       }
     }
   };
-  
+
   const getQouteItemQuantity = () => {
     const cartItem = qouteProducts.find((item) => item.id === product.id);
     return cartItem ? cartItem.quantity : 0;
@@ -145,7 +154,7 @@ function ProductCard({ product, id, service }) {
     const isInCart = cartProducts.some((vendorItem) =>
       vendorItem.products.some((productItem) => productItem.id === product.id)
     );
-  
+
     const isInQoute = qouteProducts.some((item) => item.id === product.id);
     setIsInCartState(isInCart);
     setIsInQouteState(isInQoute);
@@ -266,170 +275,172 @@ function ProductCard({ product, id, service }) {
           </Box>
           <ActionsWrapper>
             <>
-            {isInCartState ? (
-              <Box sx={{ marginTop: "22px" }}>
-                <QuantityButtons sx={{ height: "48px" }}>
-                  <Button
-                    sx={{ fontWeight: "bold", width: "100px" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDecrement(product.id, product.user_profile.id);
-                    }}
-                  >
-                    -
-                  </Button>
-                  <Button sx={{ fontWeight: "bold", width: "100px" }}>
-                    {getCartItemQuantity()}
-                  </Button>
-                  <Button
-                    sx={{ fontWeight: "bold", width: "100px" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleIncrement(product.id, product.user_profile.id);
-                    }}
-                  >
-                    +
-                  </Button>
-                </QuantityButtons>
-              </Box>
-            ) : (
-              <>
-                <CartBTN
-                  sx={{
-                    backgroundColor:
-                      product?.available_quantity === "0.00"
-                        ? "#ccc"
-                        : "#178F49",
-                    cursor:
-                      product?.available_quantity === "0.00" || service
-                        ? "not-allowed"
-                        : "pointer",
-                    "&:hover": {
+              {isInCartState ? (
+                <Box sx={{ marginTop: "22px" }}>
+                  <QuantityButtons sx={{ height: "48px" }}>
+                    <Button
+                      sx={{ fontWeight: "bold", width: "100px" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDecrement(product.id, product.user_profile.id);
+                      }}
+                    >
+                      -
+                    </Button>
+                    <Button sx={{ fontWeight: "bold", width: "100px" }}>
+                      {getCartItemQuantity()}
+                    </Button>
+                    <Button
+                      sx={{ fontWeight: "bold", width: "100px" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleIncrement(product.id, product.user_profile.id);
+                      }}
+                    >
+                      +
+                    </Button>
+                  </QuantityButtons>
+                </Box>
+              ) : (
+                <>
+                  <CartBTN
+                    sx={{
                       backgroundColor:
                         product?.available_quantity === "0.00"
                           ? "#ccc"
                           : "#178F49",
-                      opacity: "0.8",
-                    },
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if(qouteProducts.length > 0){
-                      toast.error("You can't add product to qoute and cart at the same time");
-                      return;
-                    }
-                    if (service) {
-                      return;
-                    } else if (product?.available_quantity !== "0.00") {
-                      handleAddToCart(product.prodId);
-                    }
-                  }}
-                >
-                  {product?.available_quantity === "0.00" ? (
-                    <Heading>Out of Stock!</Heading>
-                  ) : (
-                    <>
-                      {service ? (
-                        <Box
-                          sx={{
-                            fontSize: "20px",
-                            width: "20px",
-                            marginLeft: "5px",
-                            marginTop: "2px",
-                          }}
-                        >
-                          <MdOutlineMedicalServices />
-                        </Box>
-                      ) : (
-                        <CartIcon
-                          sx={{
-                            color: "#fff",
-                            fontSize: "22px",
-                            marginLeft: "10px",
-                          }}
-                        />
-                      )}
+                      cursor:
+                        product?.available_quantity === "0.00" || service
+                          ? "not-allowed"
+                          : "pointer",
+                      "&:hover": {
+                        backgroundColor:
+                          product?.available_quantity === "0.00"
+                            ? "#ccc"
+                            : "#178F49",
+                        opacity: "0.8",
+                      },
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (qouteProducts.length > 0) {
+                        toast.error(
+                          "You can't add product to qoute and cart at the same time"
+                        );
+                        return;
+                      }
+                      if (service) {
+                        return;
+                      } else if (product?.available_quantity !== "0.00") {
+                        handleAddToCart(product.prodId);
+                      }
+                    }}
+                  >
+                    {product?.available_quantity === "0.00" ? (
+                      <Heading>Out of Stock!</Heading>
+                    ) : (
+                      <>
+                        {service ? (
+                          <Box
+                            sx={{
+                              fontSize: "20px",
+                              width: "20px",
+                              marginLeft: "5px",
+                              marginTop: "2px",
+                            }}
+                          >
+                            <MdOutlineMedicalServices />
+                          </Box>
+                        ) : (
+                          <CartIcon
+                            sx={{
+                              color: "#fff",
+                              fontSize: "22px",
+                              marginLeft: "10px",
+                            }}
+                          />
+                        )}
 
-                      {service ? (
-                        "Book Now"
-                      ) : (
-                        <> {translate("productdetail.add")}</>
-                      )}
-                    </>
-                  )}
-                </CartBTN>
-              </>
-            )}
+                        {service ? (
+                          "Book Now"
+                        ) : (
+                          <> {translate("productdetail.add")}</>
+                        )}
+                      </>
+                    )}
+                  </CartBTN>
+                </>
+              )}
             </>
             <>
-            {isInQouteState ? (
-              <Box sx={{ marginTop: "18px" }}>
-                <QuantityButtons
-                  sx={{ height: "48px", marginTop: "5px" }}
-                >
-                  <Button
-                  sx={{ fontWeight: "bold", width: "100px" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDecrementQoute(product.id);
-                    }}
-                  >
-                    -
-                  </Button>
-                  <Button sx={{ fontWeight: "bold", width: "100px" }}>
-                    {getQouteItemQuantity()}
-                  </Button>
-                  <Button
-                  sx={{ fontWeight: "bold", width: "100px" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleIncrementQoute(product.id);
-                    }}
-                  >
-                    +
-                  </Button>
-                </QuantityButtons>
-              </Box>
-            ) : (
-              <>
-                <CartBTN
-                  sx={{
-                    backgroundColor:
-                      product?.available_quantity === "0.00"
-                        ? "#ccc"
-                        : "#178F49",
-                    cursor:
-                      product?.available_quantity === "0.00" || service
-                        ? "not-allowed"
-                        : "pointer",
-                    "&:hover": {
+              {isInQouteState ? (
+                <Box sx={{ marginTop: "18px" }}>
+                  <QuantityButtons sx={{ height: "48px", marginTop: "5px" }}>
+                    <Button
+                      sx={{ fontWeight: "bold", width: "100px" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDecrementQoute(product.id);
+                      }}
+                    >
+                      -
+                    </Button>
+                    <Button sx={{ fontWeight: "bold", width: "100px" }}>
+                      {getQouteItemQuantity()}
+                    </Button>
+                    <Button
+                      sx={{ fontWeight: "bold", width: "100px" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleIncrementQoute(product.id);
+                      }}
+                    >
+                      +
+                    </Button>
+                  </QuantityButtons>
+                </Box>
+              ) : (
+                <>
+                  <CartBTN
+                    sx={{
                       backgroundColor:
                         product?.available_quantity === "0.00"
                           ? "#ccc"
                           : "#178F49",
-                      opacity: "0.8",
-                    },
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if(cartProducts.length > 0){
-                      toast.error("You can't add product to qoute and cart at the same time");
-                      return;
-                    }
-                    handleAddToQoute(product.prodId);
-                  }}
-                >
-                  <ArticleIcon
-                          sx={{
-                            color: "#fff",
-                            fontSize: "22px",
-                            marginLeft: "10px",
-                          }}
-                        />
-                  {translate("productdetail.qoute")}
-                </CartBTN>
-              </>
-            )}
+                      cursor:
+                        product?.available_quantity === "0.00" || service
+                          ? "not-allowed"
+                          : "pointer",
+                      "&:hover": {
+                        backgroundColor:
+                          product?.available_quantity === "0.00"
+                            ? "#ccc"
+                            : "#178F49",
+                        opacity: "0.8",
+                      },
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (cartProducts.length > 0) {
+                        toast.error(
+                          "You can't add product to qoute and cart at the same time"
+                        );
+                        return;
+                      }
+                      handleAddToQoute(product.prodId);
+                    }}
+                  >
+                    <ArticleIcon
+                      sx={{
+                        color: "#fff",
+                        fontSize: "22px",
+                        marginLeft: "10px",
+                      }}
+                    />
+                    {translate("productdetail.qoute")}
+                  </CartBTN>
+                </>
+              )}
             </>
           </ActionsWrapper>
         </div>
@@ -491,7 +502,6 @@ const ActionsWrapper = styled(Box)(() => ({
 }));
 
 const QuantityButtons = styled(ButtonGroup)(() => ({
-  width: "50%",
   borderRadius: "5px",
   border: "1px solid #009444",
   height: "40px",

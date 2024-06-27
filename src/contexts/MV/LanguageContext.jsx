@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
+import PropTypes from "prop-types";
+import arabicTranslations from "../../translations/MV/arabic.json";
+import englishTranslations from "../../translations/MV/english.json";
 
 const LanguageContext = createContext();
 
@@ -16,8 +19,8 @@ export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState(getLanguage()); // Default language is English
 
   const languageData = {
-    en: require("../../translations/MV/english.json"),
-    ar: require("../../translations/MV/arabic.json"),
+    en: englishTranslations,
+    ar: arabicTranslations,
   };
 
   const changeLanguage = (newLanguage) => {
@@ -44,6 +47,11 @@ export const LanguageProvider = ({ children }) => {
   );
 };
 
+LanguageProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTranslation = () => {
   const context = useContext(LanguageContext);
 

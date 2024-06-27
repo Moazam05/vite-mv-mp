@@ -1,20 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setProducts } from "../../redux/MV/cart/cartSlice";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const dispatch = useDispatch();
+
   const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem("cartProducts");
     if (storedProducts) {
       setCartProducts(JSON.parse(storedProducts));
+      dispatch(setProducts(JSON.parse(storedProducts)));
     }
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
-  }, [cartProducts]);
 
   const addToCart = (product) => {
     // Extract essential product keys
@@ -55,11 +56,26 @@ export function CartProvider({ children }) {
       const updatedCartProducts = [...cartProducts];
       updatedCartProducts[vendorIndex] = vendor;
       setCartProducts(updatedCartProducts);
+      dispatch(setProducts(updatedCartProducts));
+      localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
     } else {
       setCartProducts([
         ...cartProducts,
         { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
       ]);
+      dispatch(
+        setProducts([
+          ...cartProducts,
+          { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
+        ])
+      );
+      localStorage.setItem(
+        "cartProducts",
+        JSON.stringify([
+          ...cartProducts,
+          { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
+        ])
+      );
     }
   };
 
@@ -89,6 +105,11 @@ export function CartProvider({ children }) {
       if (productIndex !== -1) {
         updatedCartProducts[vendorIndex].products[productIndex].quantity += 1;
         setCartProducts(updatedCartProducts);
+        dispatch(setProducts(updatedCartProducts));
+        localStorage.setItem(
+          "cartProducts",
+          JSON.stringify(updatedCartProducts)
+        );
       }
     }
   };
@@ -116,6 +137,8 @@ export function CartProvider({ children }) {
 
       updatedCartProducts[vendorIndex] = updatedVendor;
       setCartProducts(updatedCartProducts);
+      dispatch(setProducts(updatedCartProducts));
+      localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
 
       // Optionally, remove the vendor after state update (if state management allows)
       if (updatedVendor.products.length === 0) {
@@ -154,6 +177,11 @@ export function CartProvider({ children }) {
 
       // setCartCount(newCartCount);
       setCartProducts(filteredCartProducts);
+      dispatch(setProducts(filteredCartProducts));
+      localStorage.setItem(
+        "cartProducts",
+        JSON.stringify(filteredCartProducts)
+      );
     }
   };
 
@@ -182,6 +210,8 @@ export function CartProvider({ children }) {
 
   const emptyCart = () => {
     setCartProducts([]);
+    dispatch(setProducts([]));
+    localStorage.removeItem("cartProducts");
 
     localStorage.removeItem("cartProducts");
   };

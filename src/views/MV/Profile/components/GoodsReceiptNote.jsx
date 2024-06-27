@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // Context Import
 import { useTranslation } from "../../../../contexts/MV/LanguageContext";

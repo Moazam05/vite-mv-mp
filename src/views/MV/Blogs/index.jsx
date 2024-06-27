@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Container, Typography, Grid } from "@mui/material";
 import styled from "styled-components";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";

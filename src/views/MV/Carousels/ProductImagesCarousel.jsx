@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Grid, IconButton, Box, CardMedia } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { styled } from "@mui/system";
@@ -180,9 +180,7 @@ const ImagesData = styled(Grid)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   mt: "40px",
-  [theme.breakpoints.down("sm")]: {
-
-  },
+  [theme.breakpoints.down("sm")]: {},
 }));
 
 const ThumbnailImage = styled("img")({

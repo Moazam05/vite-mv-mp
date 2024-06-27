@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
 
@@ -24,7 +24,7 @@ export function CartProvider({ children }) {
 
   const addToCart = (product) => {
     setCartCount(cartCount + 1);
-  
+
     // Extract essential product keys
     const essentialProduct = {
       id: product.id,
@@ -44,23 +44,30 @@ export function CartProvider({ children }) {
       profile: product.user_profile.slug,
     };
 
-    const vendorIndex = cartProducts.findIndex((v) => v.vendor.id === vendor.id);
-  
+    const vendorIndex = cartProducts.findIndex(
+      (v) => v.vendor.id === vendor.id
+    );
+
     if (vendorIndex !== -1) {
       const vendor = cartProducts[vendorIndex];
-      const existingProductIndex = vendor.products.findIndex((p) => p.id === essentialProduct.id);
-  
+      const existingProductIndex = vendor.products.findIndex(
+        (p) => p.id === essentialProduct.id
+      );
+
       if (existingProductIndex !== -1) {
         vendor.products[existingProductIndex].quantity += 1;
       } else {
         vendor.products.push({ ...essentialProduct, quantity: 1 });
       }
-  
+
       const updatedCartProducts = [...cartProducts];
       updatedCartProducts[vendorIndex] = vendor;
       setCartProducts(updatedCartProducts);
     } else {
-      setCartProducts([...cartProducts, { vendor, products: [{ ...essentialProduct, quantity: 1 }] }]);
+      setCartProducts([
+        ...cartProducts,
+        { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
+      ]);
     }
   };
 
@@ -68,7 +75,11 @@ export function CartProvider({ children }) {
     const vendorObj = cartProducts.find((v) => v.vendor.id === vendorId);
     if (vendorObj) {
       const product = vendorObj.products.find((p) => p.id === productId);
-      if (product && product.orderLimit && product.quantity >= product.orderLimit) {
+      if (
+        product &&
+        product.orderLimit &&
+        product.quantity >= product.orderLimit
+      ) {
         return true;
       }
     }
@@ -79,8 +90,10 @@ export function CartProvider({ children }) {
     const vendorIndex = cartProducts.findIndex((v) => v.vendor.id === vendorId);
     if (vendorIndex !== -1) {
       const updatedCartProducts = [...cartProducts];
-      const productIndex = updatedCartProducts[vendorIndex].products.findIndex((p) => p.id === id);
-    
+      const productIndex = updatedCartProducts[vendorIndex].products.findIndex(
+        (p) => p.id === id
+      );
+
       if (productIndex !== -1) {
         updatedCartProducts[vendorIndex].products[productIndex].quantity += 1;
         setCartProducts(updatedCartProducts);
@@ -94,74 +107,87 @@ export function CartProvider({ children }) {
       const updatedCartProducts = [...cartProducts];
       const updatedVendor = {
         ...updatedCartProducts[vendorIndex],
-        products: updatedCartProducts[vendorIndex].products.map((product) => {
-          if (product.id === id) {
-            const updatedQuantity = product.quantity - 1;
-            if (updatedQuantity <= 0) {
-              return null; // Remove the product if quantity is zero
-            } else {
-              return { ...product, quantity: updatedQuantity };
+        products: updatedCartProducts[vendorIndex].products
+          .map((product) => {
+            if (product.id === id) {
+              const updatedQuantity = product.quantity - 1;
+              if (updatedQuantity <= 0) {
+                return null; // Remove the product if quantity is zero
+              } else {
+                return { ...product, quantity: updatedQuantity };
+              }
             }
-          }
-          return product;
-        }).filter((product) => product !== null),
+            return product;
+          })
+          .filter((product) => product !== null),
       };
-  
+
       updatedCartProducts[vendorIndex] = updatedVendor;
       setCartProducts(updatedCartProducts);
-  
+
       // Optionally, remove the vendor after state update (if state management allows)
       if (updatedVendor.products.length === 0) {
         removeFromCart(id, vendorId); // Call removeFromCart after state update
       }
     }
   };
-  
+
   const removeFromCart = (id, vendorId) => {
     // Find the index of the vendor in cartProducts
     const vendorIndex = cartProducts.findIndex((v) => v.vendor.id === vendorId);
-  
+
     if (vendorIndex !== -1) {
       const updatedCartProducts = cartProducts.map((vendor) => {
         if (vendor.vendor.id === vendorId) {
           // Remove the product from the vendor's products array
-          vendor.products = vendor.products.filter((product) => product.id !== id);
+          vendor.products = vendor.products.filter(
+            (product) => product.id !== id
+          );
         }
         return vendor;
       });
-  
+
       // Remove vendors whose products array is empty
-      const filteredCartProducts = updatedCartProducts.filter((vendor) => vendor.products.length > 0);
-  
+      const filteredCartProducts = updatedCartProducts.filter(
+        (vendor) => vendor.products.length > 0
+      );
+
       // Update cart count based on remaining products
       const newCartCount = filteredCartProducts.reduce(
-        (total, vendor) => total + vendor.products.reduce((sum, product) => sum + product.quantity, 0),
+        (total, vendor) =>
+          total +
+          vendor.products.reduce((sum, product) => sum + product.quantity, 0),
         0
       );
-  
+
       setCartCount(newCartCount);
       setCartProducts(filteredCartProducts);
     }
   };
-  
+
   const calculateTotalPrice = () => {
     const totalPrice = cartProducts.reduce((total, vendor) => {
-      return total + vendor.products.reduce((vendorTotal, product) => {
-        const { quantity, vatOnlinePrice } = product;
-        return vendorTotal + (quantity * vatOnlinePrice);
-      }, 0);
+      return (
+        total +
+        vendor.products.reduce((vendorTotal, product) => {
+          const { quantity, vatOnlinePrice } = product;
+          return vendorTotal + quantity * vatOnlinePrice;
+        }, 0)
+      );
     }, 0);
-  
+
     return totalPrice;
   };
 
   const getTotalCartCount = () => {
     return cartProducts.reduce(
-      (total, vendor) => total + vendor.products.reduce((sum, product) => sum + product.quantity, 0),
+      (total, vendor) =>
+        total +
+        vendor.products.reduce((sum, product) => sum + product.quantity, 0),
       0
     );
   };
-  
+
   const emptyCart = () => {
     setCartCount(0);
     setCartProducts([]);

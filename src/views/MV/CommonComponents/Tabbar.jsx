@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 // Import the  MUI
 import { styled, Box, Typography, Button, Rating } from "@mui/material";
 import Tab from "@mui/material/Tab";
@@ -25,7 +25,6 @@ const Tabbar = ({ data, reviews }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
 
   return (
     <Box sx={{ width: "100%", typography: "body1" }} dir={getDirection()}>

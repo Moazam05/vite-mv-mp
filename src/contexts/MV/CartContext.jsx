@@ -1,20 +1,28 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setProducts } from "../../redux/MV/cart/cartSlice";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const dispatch = useDispatch();
+
   const [cartProducts, setCartProducts] = useState([]);
+
+  console.log("state", cartProducts);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem("cartProducts");
     if (storedProducts) {
       setCartProducts(JSON.parse(storedProducts));
+      dispatch(setProducts(JSON.parse(storedProducts)));
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
-  }, [cartProducts]);
+  // useEffect(() => {
+  //   localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+  //   dispatch(setProducts(cartProducts));
+  // }, [dispatch]);
 
   const addToCart = (product) => {
     // Extract essential product keys
@@ -40,31 +48,47 @@ export function CartProvider({ children }) {
       (v) => v.vendor.id === vendor.id
     );
 
+    let updatedCartProducts;
+
     if (vendorIndex !== -1) {
-      const vendor = cartProducts[vendorIndex];
-      const existingProductIndex = vendor.products.findIndex(
+      // Deep clone the vendor to avoid mutating the original state
+      const updatedVendor = { ...cartProducts[vendorIndex] };
+      const existingProductIndex = updatedVendor.products.findIndex(
         (p) => p.id === essentialProduct.id
       );
 
       if (existingProductIndex !== -1) {
-        vendor.products[existingProductIndex].quantity += 1;
+        updatedVendor.products = updatedVendor.products.map((product, index) =>
+          index === existingProductIndex
+            ? { ...product, quantity: product.quantity + 1 }
+            : product
+        );
       } else {
-        vendor.products.push({ ...essentialProduct, quantity: 1 });
+        updatedVendor.products = [
+          ...updatedVendor.products,
+          { ...essentialProduct, quantity: 1 },
+        ];
       }
 
-      const updatedCartProducts = [...cartProducts];
-      updatedCartProducts[vendorIndex] = vendor;
-      setCartProducts(updatedCartProducts);
+      updatedCartProducts = [
+        ...cartProducts.slice(0, vendorIndex),
+        updatedVendor,
+        ...cartProducts.slice(vendorIndex + 1),
+      ];
     } else {
-      setCartProducts([
+      updatedCartProducts = [
         ...cartProducts,
         { vendor, products: [{ ...essentialProduct, quantity: 1 }] },
-      ]);
+      ];
     }
+
+    setCartProducts(updatedCartProducts);
+    dispatch(setProducts(updatedCartProducts));
+    localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
   };
 
   const isOrderLimitExceeded = (productId, vendorId) => {
-    const vendorObj = cartProducts.find((v) => v.vendor.id === vendorId);
+    const vendorObj = cartProducts?.find((v) => v?.vendor?.id === vendorId);
     if (vendorObj) {
       const product = vendorObj.products.find((p) => p.id === productId);
       if (
@@ -80,47 +104,56 @@ export function CartProvider({ children }) {
 
   const incrementById = (id, vendorId) => {
     const vendorIndex = cartProducts.findIndex((v) => v.vendor.id === vendorId);
-    if (vendorIndex !== -1) {
-      const updatedCartProducts = [...cartProducts];
-      const productIndex = updatedCartProducts[vendorIndex].products.findIndex(
-        (p) => p.id === id
-      );
 
-      if (productIndex !== -1) {
-        updatedCartProducts[vendorIndex].products[productIndex].quantity += 1;
-        setCartProducts(updatedCartProducts);
-      }
+    if (vendorIndex !== -1) {
+      const updatedCartProducts = cartProducts.map((vendor, index) => {
+        if (index === vendorIndex) {
+          const updatedProducts = vendor.products.map((product) => {
+            if (product.id === id) {
+              return { ...product, quantity: product.quantity + 1 };
+            }
+            return product;
+          });
+          return { ...vendor, products: updatedProducts };
+        }
+        return vendor;
+      });
+
+      setCartProducts(updatedCartProducts);
+      dispatch(setProducts(updatedCartProducts));
+      localStorage.setItem("cartProducts", JSON.stringify(updatedCartProducts));
     }
   };
 
   const decrementById = (id, vendorId) => {
     const vendorIndex = cartProducts.findIndex((v) => v.vendor.id === vendorId);
+
     if (vendorIndex !== -1) {
-      const updatedCartProducts = [...cartProducts];
-      const updatedVendor = {
-        ...updatedCartProducts[vendorIndex],
-        products: updatedCartProducts[vendorIndex].products
+      const updatedCartProducts = cartProducts.map((vendor, index) => {
+        if (index !== vendorIndex) return vendor;
+
+        const updatedProducts = vendor.products
           .map((product) => {
             if (product.id === id) {
               const updatedQuantity = product.quantity - 1;
-              if (updatedQuantity <= 0) {
-                return null; // Remove the product if quantity is zero
-              } else {
-                return { ...product, quantity: updatedQuantity };
-              }
+              return updatedQuantity <= 0
+                ? null
+                : { ...product, quantity: updatedQuantity };
             }
             return product;
           })
-          .filter((product) => product !== null),
-      };
+          .filter((product) => product !== null);
 
-      updatedCartProducts[vendorIndex] = updatedVendor;
-      setCartProducts(updatedCartProducts);
+        return { ...vendor, products: updatedProducts };
+      });
 
-      // Optionally, remove the vendor after state update (if state management allows)
-      if (updatedVendor.products.length === 0) {
-        removeFromCart(id, vendorId); // Call removeFromCart after state update
-      }
+      const finalCartProducts = updatedCartProducts.filter(
+        (vendor) => vendor.products.length > 0
+      );
+
+      setCartProducts(finalCartProducts);
+      dispatch(setProducts(finalCartProducts));
+      localStorage.setItem("cartProducts", JSON.stringify(finalCartProducts));
     }
   };
 
@@ -145,6 +178,11 @@ export function CartProvider({ children }) {
       );
 
       setCartProducts(filteredCartProducts);
+      dispatch(setProducts(filteredCartProducts));
+      localStorage.setItem(
+        "cartProducts",
+        JSON.stringify(filteredCartProducts)
+      );
     }
   };
 
@@ -173,6 +211,7 @@ export function CartProvider({ children }) {
 
   const emptyCart = () => {
     setCartProducts([]);
+    dispatch(setProducts([]));
     localStorage.removeItem("cartProducts");
   };
 

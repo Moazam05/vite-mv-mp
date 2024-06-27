@@ -20,14 +20,12 @@ import {
   Grid,
   Box,
   Card,
-  CardMedia,
   Typography,
   TextField,
   Button,
 } from "@mui/material";
 
 // Assets Import
-import logo from "../../../assets/logo.webp";
 import BGImage from "../../../assets/BGimage2.webp";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";
 import LanguageButton from "./LanguageButton";
@@ -53,6 +51,7 @@ function Register() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      console.log("values", values);
       handleSignup(formik.values);
     },
   });
@@ -69,6 +68,7 @@ function Register() {
         user_role: 1,
       })
       .then((response) => {
+        console.log("response", response);
         toast.success(
           "You must have recieved an email with a password. Please login with that password."
         );
@@ -261,14 +261,6 @@ const LogoHolder = styled(Card)(() => ({
   border: "none",
   boxShadow: "none",
   textAlign: "center",
-}));
-
-const Logo = styled(CardMedia)(({ theme }) => ({
-  width: "auto",
-  margin: "0 auto",
-  [theme.breakpoints.down("sm")]: {
-    height: "50px",
-  },
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({

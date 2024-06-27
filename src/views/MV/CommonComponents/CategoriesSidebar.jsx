@@ -22,7 +22,7 @@ function CategoriesSidebar({ title, data }) {
 
 // Styled Components
 
-const SidebarWrapper = styled(Box)(({ theme }) => ({
+const SidebarWrapper = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -34,7 +34,7 @@ const SidebarWrapper = styled(Box)(({ theme }) => ({
   overflow: "auto",
 }));
 
-const SidebarList = styled(Stack)(({ theme }) => ({
+const SidebarList = styled(Stack)(() => ({
   width: "90%",
   marginTop: "1rem",
   display: "flex",

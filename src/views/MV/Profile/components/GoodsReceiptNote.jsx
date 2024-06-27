@@ -38,7 +38,7 @@ const GoodsReceiptNote = () => {
   const { getDirection, getLanguage } = useTranslation();
   const language = getLanguage();
 
-  const [formType, setFormType] = React.useState("");
+  const [formType, setFormType] = useState("");
   const [formValues, setFormValues] = useState({
     dnNo: "",
     dnDate: "",

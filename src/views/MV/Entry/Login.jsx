@@ -16,7 +16,6 @@ import {
   Grid,
   Box,
   Card,
-  CardMedia,
   Typography,
   TextField,
   Button,
@@ -25,7 +24,6 @@ import {
 } from "@mui/material";
 
 // Assets Import
-import logo from "../../../assets/logo.webp";
 import BGImage from "../../../assets/BGimage2.webp";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";
 import LanguageButton from "./LanguageButton";
@@ -232,11 +230,6 @@ const LogoHolder = styled(Card)(() => ({
   border: "none",
   boxShadow: "none",
   textAlign: "center",
-}));
-
-const Logo = styled(CardMedia)(() => ({
-  width: "auto",
-  margin: "0 auto",
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({

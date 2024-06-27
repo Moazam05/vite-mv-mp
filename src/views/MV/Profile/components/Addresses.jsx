@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 
 // MUI Components Import
@@ -37,6 +37,7 @@ function Addresses() {
         },
       })
       .then((response) => {
+        console.log(response);
         fetchUserAddresses();
       })
       .catch((error) => console.log("Error", error));

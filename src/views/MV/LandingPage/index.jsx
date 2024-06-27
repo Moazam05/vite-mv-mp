@@ -1,11 +1,9 @@
-import React from "react";
-
 // MUI Components Import
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 
 // Components Import
 import Navbar from "./Components/Navbar";
-import BannersCarousel from "./Components/BannersCarousel";
+import BannersCarousel from "./ComponentsØCarousel";
 import CategoryList from "./Components/CategoryList";
 import BestSeller from "./Components/BestSeller";
 import Recomendation from "./Components/Recomendation";
@@ -20,7 +18,13 @@ const LandingPage = () => {
   return (
     <Container maxWidth={true} disableGutters={true}>
       <Navbar />
-      <div style={{ width: "100%", backgroundColor: "#FBF5FF", paddingTop: "40px" }}>
+      <div
+        style={{
+          width: "100%",
+          backgroundColor: "#FBF5FF",
+          paddingTop: "40px",
+        }}
+      >
         <BannersCarousel />
         <CategoryList />
         <BestSeller />

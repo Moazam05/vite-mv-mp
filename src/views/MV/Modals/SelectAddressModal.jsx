@@ -1,12 +1,11 @@
 import { styled } from "@mui/material/styles";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // MUI Components Import
-import { Box, Button, Grid, Modal, Typography } from "@mui/material";
+import { Box, Grid, Modal, Typography } from "@mui/material";
 
 // Loader Import
-import { MoonLoader } from "react-spinners";
 import { baseUrl } from "../../../constants/MV/api";
 
 // Icons Import
@@ -44,7 +43,6 @@ function SelectAddressModal({
 
   const token = window.localStorage.getItem("mp-user-token");
 
-  const [loading, setLoading] = useState(false);
   const [addressList, setAddressList] = useState([]);
 
   const fetchUserAddresses = () => {
@@ -82,41 +80,27 @@ function SelectAddressModal({
             <Grid item md={3} textAlign={"start"}>
               <Heading sx={{ padding: "10px 0" }}>Select an address</Heading>
             </Grid>
-            {loading ? (
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "80vh",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <MoonLoader color="#000" size={40} />
-              </Box>
-            ) : (
-              addressList.map((item, index) => (
-                <AddressBox key={index} onClick={() => changeAddress(item)}>
-                  <DetailBox>
-                    <Text>{item.fullname}</Text>
-                    <Text>{item.phonenumber}</Text>
-                    <Text>
-                      {" "}
-                      {item.address}, {item.city}, {item.country}{" "}
-                    </Text>
-                    <LabelsWrapper>
-                      <Label>{item.address_label_display}</Label>
-                      {item.is_billing ? (
-                        <Label>{translate("address.default")}</Label>
-                      ) : null}
-                      {item.is_shipping ? (
-                        <Label>{translate("address.ship")}</Label>
-                      ) : null}
-                    </LabelsWrapper>
-                  </DetailBox>
-                </AddressBox>
-              ))
-            )}
+            {addressList?.map((item, index) => (
+              <AddressBox key={index} onClick={() => changeAddress(item)}>
+                <DetailBox>
+                  <Text>{item.fullname}</Text>
+                  <Text>{item.phonenumber}</Text>
+                  <Text>
+                    {" "}
+                    {item.address}, {item.city}, {item.country}{" "}
+                  </Text>
+                  <LabelsWrapper>
+                    <Label>{item.address_label_display}</Label>
+                    {item.is_billing ? (
+                      <Label>{translate("address.default")}</Label>
+                    ) : null}
+                    {item.is_shipping ? (
+                      <Label>{translate("address.ship")}</Label>
+                    ) : null}
+                  </LabelsWrapper>
+                </DetailBox>
+              </AddressBox>
+            ))}
           </Grid>
         </Box>
       </Modal>
@@ -145,30 +129,12 @@ const AddressBox = styled(Box)({
   cursor: "pointer",
 });
 
-const AddButton = styled(Button)(({ theme }) => ({
-  textTransform: "none",
-  width: "25%",
-  height: "35px",
-  borderRadius: "30px",
-  display: "flex",
-  alignItems: "center",
-  [theme.breakpoints.down("sm")]: {
-    width: "40%",
-  },
-}));
-
 const DetailBox = styled(Box)(({ theme }) => ({
   width: "80%",
   textAlign: "start",
   [theme.breakpoints.down("sm")]: {
     width: "70%",
   },
-}));
-
-const Edit = styled(Button)(() => ({
-  cursor: "pointer",
-  color: "#165fcf",
-  fontSize: "12px",
 }));
 
 const Text = styled(Typography)(() => ({

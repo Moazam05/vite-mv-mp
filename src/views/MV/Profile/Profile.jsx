@@ -1,4 +1,3 @@
-import React from "react";
 import { styled } from "@mui/system";
 import { Outlet } from "react-router-dom";
 
@@ -12,8 +11,7 @@ import { useTranslation } from "../../../contexts/MV/LanguageContext";
 import Navbar from "../LandingPage/Components/Navbar";
 
 const Profile = () => {
-  const { translate, getLanguage, getDirection } = useTranslation();
-  const language = getLanguage();
+  const { getDirection } = useTranslation();
   return (
     <>
       <Wrapper maxWidth={false}>
@@ -30,7 +28,7 @@ const Profile = () => {
 
 // Styled Components
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   padding: "0 !important",
   display: "flex",
   flexDirection: "column",

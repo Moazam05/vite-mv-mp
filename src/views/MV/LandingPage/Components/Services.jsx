@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Box, Container, Grid, Typography, styled } from "@mui/material";
 
 // Assets Import
@@ -34,7 +32,7 @@ function Services() {
   ];
   return (
     <Wrapper>
-      <ServiceWrapper container  >
+      <ServiceWrapper container>
         {serviceList.map((service, index) => (
           <ServiceCard
             item
@@ -103,9 +101,9 @@ const ServiceCard = styled(Grid)({
 });
 const ServiceWrapper = styled(Grid)(({ theme }) => ({
   justifyContent: "center",
-  gap: '0px',
+  gap: "0px",
   [theme.breakpoints.down("sm")]: {
-    gap: '10px',
+    gap: "10px",
   },
 }));
 

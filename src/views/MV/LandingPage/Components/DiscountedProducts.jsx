@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { styled } from "@mui/material/styles";
 
@@ -73,7 +73,13 @@ function DiscountedProducts() {
           <MoonLoader color="#000" size={20} />
         </Box>
       ) : (
-        <DiscountedProductsWrapper sx={recommendation?.length < 6 ? {justifyContent: "center",}: {justifyContent: "flex-start",}}>
+        <DiscountedProductsWrapper
+          sx={
+            recommendation?.length < 6
+              ? { justifyContent: "center" }
+              : { justifyContent: "flex-start" }
+          }
+        >
           {recommendation.map((product, index) => (
             <ProductCard key={index} product={product} id={product.prodId} />
           ))}
@@ -85,7 +91,7 @@ function DiscountedProducts() {
 
 // Styled Components
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "column",
   // justifyContent: 'center',
@@ -108,34 +114,34 @@ const DiscountedProductsWrapper = styled(Box)(({ theme }) => ({
   flexDirection: "row",
   justifyContent: "flex-start",
   width: "100%",
-  height: 'auto',
+  height: "auto",
   overflowX: "auto", // Ensure horizontal scroll for the container
   overflowY: "hidden", // Hide vertical overflow
   padding: "0px",
-  '& > *': {
-      flex: "0 0 auto", 
+  "& > *": {
+    flex: "0 0 auto",
+    minWidth: "230px",
+  },
+
+  "&::-webkit-scrollbar": {
+    height: "8px", // Adjust the height of the scrollbar
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "#888", // Color of the scrollbar thumb
+    borderRadius: "10px", // Rounded corners for the scrollbar thumb
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    background: "#555", // Color when hovering over the scrollbar thumb
+  },
+
+  [theme.breakpoints.down("sm")]: {
+    justifyContent: "flex-start",
+    flexWrap: "nowrap",
+    overflowX: "auto",
+    "& > *": {
+      flex: "0 0 auto",
       minWidth: "230px",
+    },
   },
-
-  '&::-webkit-scrollbar': {
-      height: '8px', // Adjust the height of the scrollbar
-  },
-  '&::-webkit-scrollbar-thumb': {
-      background: '#888', // Color of the scrollbar thumb
-      borderRadius: '10px', // Rounded corners for the scrollbar thumb
-  },
-  '&::-webkit-scrollbar-thumb:hover': {
-      background: '#555', // Color when hovering over the scrollbar thumb
-  },
-
-  [theme.breakpoints.down('sm')]: {
-      justifyContent: "flex-start", 
-      flexWrap: "nowrap",
-      overflowX: "auto", 
-      '& > *': {
-          flex: "0 0 auto",
-          minWidth: "230px",
-      },
-  }
 }));
 export default DiscountedProducts;

@@ -1,9 +1,9 @@
 import { styled } from "@mui/material/styles";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // MUI Components Import
-import { Container, Box, Typography, Button } from "@mui/material";
+import { Container, Box, Typography } from "@mui/material";
 import ProductCard from "../../Cards/ProductCard";
 import { useTranslation } from "../../../../contexts/MV/LanguageContext";
 
@@ -11,7 +11,6 @@ import { useTranslation } from "../../../../contexts/MV/LanguageContext";
 import { MoonLoader } from "react-spinners";
 
 import { baseUrl } from "../../../../constants/MV/api";
-import { useNavigate } from "react-router-dom";
 
 function Recomendation() {
   const {
@@ -23,7 +22,6 @@ function Recomendation() {
   const [loading, setLoading] = useState(true);
   const [recommendation, setRecommendation] = useState([]);
   const { translate } = useTranslation();
-  const navigate = useNavigate();
 
   const fetchRecommendation = () => {
     setLoading(true);
@@ -79,7 +77,13 @@ function Recomendation() {
           <MoonLoader color="#000" size={20} />
         </Box>
       ) : (
-        <RecommendedProductsWrapper sx={recommendation?.length < 6 ? {justifyContent: "center",}: {justifyContent: "flex-start",}}>
+        <RecommendedProductsWrapper
+          sx={
+            recommendation?.length < 6
+              ? { justifyContent: "center" }
+              : { justifyContent: "flex-start" }
+          }
+        >
           {recommendation.map((product, index) => (
             <ProductCard key={index} product={product} id={product.prodId} />
           ))}
@@ -94,15 +98,14 @@ function Recomendation() {
           alignItems: "center",
           padding: "20px",
         }}
-      >
-      </Box>
+      ></Box>
     </Wrapper>
   );
 }
 
 // Styled Components
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "column",
   gap: "30px",
@@ -122,34 +125,34 @@ const RecommendedProductsWrapper = styled(Box)(({ theme }) => ({
   flexDirection: "row",
   justifyContent: "flex-start",
   width: "100%",
-  height: 'auto',
+  height: "auto",
   overflowX: "auto", // Ensure horizontal scroll for the container
   overflowY: "hidden", // Hide vertical overflow
   padding: "0px",
-  '& > *': {
-      flex: "0 0 auto", 
+  "& > *": {
+    flex: "0 0 auto",
+    minWidth: "230px",
+  },
+
+  "&::-webkit-scrollbar": {
+    height: "8px", // Adjust the height of the scrollbar
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "#888", // Color of the scrollbar thumb
+    borderRadius: "10px", // Rounded corners for the scrollbar thumb
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    background: "#555", // Color when hovering over the scrollbar thumb
+  },
+
+  [theme.breakpoints.down("sm")]: {
+    justifyContent: "flex-start",
+    flexWrap: "nowrap",
+    overflowX: "auto",
+    "& > *": {
+      flex: "0 0 auto",
       minWidth: "230px",
+    },
   },
-
-  '&::-webkit-scrollbar': {
-      height: '8px', // Adjust the height of the scrollbar
-  },
-  '&::-webkit-scrollbar-thumb': {
-      background: '#888', // Color of the scrollbar thumb
-      borderRadius: '10px', // Rounded corners for the scrollbar thumb
-  },
-  '&::-webkit-scrollbar-thumb:hover': {
-      background: '#555', // Color when hovering over the scrollbar thumb
-  },
-
-  [theme.breakpoints.down('sm')]: {
-      justifyContent: "flex-start", 
-      flexWrap: "nowrap",
-      overflowX: "auto", 
-      '& > *': {
-          flex: "0 0 auto",
-          minWidth: "230px",
-      },
-  }
 }));
 export default Recomendation;

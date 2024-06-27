@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // MUI Components Import
 import { Box, Grid, Typography, styled } from "@mui/material";
@@ -24,10 +24,8 @@ const Container = styled(Box)(({ theme }) => ({
 }));
 
 const Footer = () => {
-
   const { translate, getLanguage, getDirection } = useTranslation();
   const language = getLanguage();
-
 
   const [aboutData, setAboutData] = useState([]);
   const [linksData, setLinksData] = useState([]);
@@ -42,7 +40,7 @@ const Footer = () => {
       .then((response) => {
         setAboutData(response.data);
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   const fetchLinksData = () => {
@@ -51,7 +49,7 @@ const Footer = () => {
       .then((response) => {
         setLinksData(response.data);
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   const fetchContactData = () => {
@@ -60,7 +58,7 @@ const Footer = () => {
       .then((response) => {
         setContactData(response.data);
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   const fetchSocialsData = () => {
@@ -69,7 +67,7 @@ const Footer = () => {
       .then((response) => {
         setSocialsData(response.data);
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   const fetchPaymentsData = () => {
@@ -78,7 +76,7 @@ const Footer = () => {
       .then((response) => {
         setPaymentsData(response.data);
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   const fetchPartnersData = () => {
@@ -87,7 +85,7 @@ const Footer = () => {
       .then((response) => {
         setPartnersData(response.data);
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   useEffect(() => {

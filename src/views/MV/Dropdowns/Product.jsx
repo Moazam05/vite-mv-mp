@@ -1,9 +1,9 @@
 import { KeyboardArrowDown } from "@mui/icons-material";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Product = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,7 +23,7 @@ const Product = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         endIcon={<KeyboardArrowDown color="#050038" />}
-        style={{textTransform:"none",color:"#050038"}}
+        style={{ textTransform: "none", color: "#050038" }}
       >
         Product
       </Button>

@@ -1,6 +1,5 @@
 import { Box, Button, Container, InputBase, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React from "react";
 import { useTranslation } from "../../../../contexts/MV/LanguageContext";
 
 function Newsletter() {
@@ -14,9 +13,7 @@ function Newsletter() {
     <Wrapper maxWidth={false}>
       <SubWrapper>
         <Heading>{translate("news.title")} </Heading>
-        <SubHeading >
-          {translate("news.subtitle")}
-        </SubHeading>
+        <SubHeading>{translate("news.subtitle")}</SubHeading>
         <SearchWrapper
           dir={getDirection()}
           component="form"
@@ -34,10 +31,7 @@ function Newsletter() {
             placeholder={translate("productlisting.here")}
           />
 
-          <SearchButton
-            aria-label="search"
-            variant="contained"
-          >
+          <SearchButton aria-label="search" variant="contained">
             {translate("productlisting.search")}
           </SearchButton>
         </SearchWrapper>
@@ -46,7 +40,7 @@ function Newsletter() {
   );
 }
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -65,10 +59,9 @@ const SubWrapper = styled(Container)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   [theme.breakpoints.down("sm")]: {
-    width: '100%'
+    width: "100%",
   },
 }));
-
 
 const Heading = styled(Typography)(({ theme }) => ({
   fontSize: "1.6rem",
@@ -85,8 +78,8 @@ const SubHeading = styled(Typography)(({ theme }) => ({
   paddingBottom: "8px",
   [theme.breakpoints.down("sm")]: {
     fontSize: "12px",
-    width: '80%',
-    textAlign: 'center',
+    width: "80%",
+    textAlign: "center",
   },
 }));
 
@@ -136,6 +129,6 @@ const SearchButton = styled(Button)(({ theme }) => ({
     padding: "8px",
     fontSize: "11px",
   },
-}),);
+}));
 
 export default Newsletter;

@@ -1,4 +1,3 @@
-import React from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Button, Container, Typography } from "@mui/material";
 import banner from "../../../../assets/Banner.webp"; // Corrected the import path
@@ -11,7 +10,7 @@ function DiscountBanner() {
     <Wrapper>
       <Box
         sx={{
-          width: '100%',
+          width: "100%",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
@@ -20,18 +19,11 @@ function DiscountBanner() {
         dir={getDirection()}
       >
         <TextWrapper dir={getDirection()}>
-          <Heading  >
-            {translate("banner.title")}
-          </Heading>
-          <SubHeading>
-            {translate("hotselling.subtitle")}
-          </SubHeading>
+          <Heading>{translate("banner.title")}</Heading>
+          <SubHeading>{translate("hotselling.subtitle")}</SubHeading>
         </TextWrapper>
 
-        <DiscountButton
-          aria-label="search"
-          variant="contained"
-        >
+        <DiscountButton aria-label="search" variant="contained">
           {translate("hotselling.redeem")}
         </DiscountButton>
       </Box>
@@ -39,7 +31,7 @@ function DiscountBanner() {
   );
 }
 
-const Wrapper = styled(Container)(({ theme }) => ({
+const Wrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",

@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../../../../contexts/MV/LanguageContext";
-import {
-  styled,
-  Box,
-  Container,
-  Grid,
-  Typography,
-  Button,
-} from "@mui/material";
+import { styled, Box, Container, Grid, Typography } from "@mui/material";
 // Loader Import
 import { MoonLoader } from "react-spinners";
 import { useFetchHotSellingOfferQuery } from "../../../../redux/MV/api/landingPageApiSlice";
@@ -99,22 +92,11 @@ const CatTopbar = styled(Box)(() => ({
   padding: "10px 20px",
 }));
 
-const Wrapper = styled(Container)(() => ({
-  margin: "40px auto",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "start",
-  alignItems: "center",
-  gap: "30px",
-  padding: "20px 0",
-  backgroundColor: "#fff",
-}));
-
-const HotsellingWrapper = styled(Container)(({ theme }) => ({
+const HotsellingWrapper = styled(Container)(() => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  width: '90%',
+  width: "90%",
   gap: "20px",
   padding: "30px 10px",
   overflowX: "auto",
@@ -139,8 +121,8 @@ const CatWrapper = styled(Grid)(() => ({
   boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
   "&:hover": {
     boxShadow: "none",
-    outline: "1px solid #000"
-  }
+    outline: "1px solid #000",
+  },
 }));
 
 const CatTitle = styled(Typography)(() => ({
@@ -148,11 +130,11 @@ const CatTitle = styled(Typography)(() => ({
   fontWeight: "600",
   color: "#000000",
   cursor: "pointer",
-  textAlign: 'center',
-  whiteSpace: 'nowrap',
+  textAlign: "center",
+  whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
-  width: "130px"
+  width: "130px",
 }));
 
 export default HotSellingOffer;

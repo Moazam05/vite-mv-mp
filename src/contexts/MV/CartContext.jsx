@@ -212,8 +212,6 @@ export function CartProvider({ children }) {
     setCartProducts([]);
     dispatch(setProducts([]));
     localStorage.removeItem("cartProducts");
-
-    localStorage.removeItem("cartProducts");
   };
 
   return (

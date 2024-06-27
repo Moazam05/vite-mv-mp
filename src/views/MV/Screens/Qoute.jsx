@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { styled } from "@mui/system";
 
 // Contexts Import
@@ -42,10 +42,8 @@ import dayjs from "dayjs";
 // Utils import
 import { getCurrentDate, thousandSeparator } from "../../../utils/MV/index";
 import { useCreateRFQMutation } from "../../../redux/MV/api/rfqApiSlice";
-import QouteCard from "../CommonComponents/QouteCard";
 import RFQInputField from "../CommonComponents/RFQInputField";
 import { useNavigate, useParams } from "react-router-dom";
-
 const Qoute = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -92,7 +90,7 @@ const Qoute = () => {
   }
 
   const handleIncrement = (id) => {
-    const product = qouteProducts.find((p) => p.id === id);
+    // const product = qouteProducts.find((p) => p.id === id);
     incrementByQouteId(id);
   };
 
@@ -100,21 +98,21 @@ const Qoute = () => {
     decrementByQouteId(id);
   };
 
-  const validateFields = () => {
-    if (!rfqClosingDate || !rfqDeliveryLocation) {
-      toast.error("RFQ Closing Date and Delivery Location are required.");
-      return false;
-    }
+  // const validateFields = () => {
+  //   if (!rfqClosingDate || !rfqDeliveryLocation) {
+  //     toast.error("RFQ Closing Date and Delivery Location are required.");
+  //     return false;
+  //   }
 
-    for (const product of qouteProducts) {
-      if (!deliveryLocations[product.id]) {
-        toast.error(`Delivery Location for product ${product.id} is required.`);
-        return false;
-      }
-    }
+  //   for (const product of qouteProducts) {
+  //     if (!deliveryLocations[product.id]) {
+  //       toast.error(`Delivery Location for product ${product.id} is required.`);
+  //       return false;
+  //     }
+  //   }
 
-    return true;
-  };
+  //   return true;
+  // };
 
   // todo: CREATE RFQ API BIND
   const [createRFQ, { isLoading }] = useCreateRFQMutation();
@@ -525,32 +523,12 @@ const StyledTextarea = styled("textarea")(() => ({
   border: "1px solid #C9CFD2",
 }));
 
-const HeaderTextarea = styled("textarea")(({ theme }) => ({
-  background: "#fff",
-  borderRadius: "8px",
-  fontSize: "16px",
-  margin: "8px 0",
-  height: "40px",
-  width: "250px",
-  border: "1px solid #C9CFD2",
-  [theme.breakpoints.down("xs")]: {
-    width: "160px",
-  },
-}));
-
-const DataWrapper = styled(Grid)(({ theme }) => ({
+const DataWrapper = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "row",
   justifyContent: "end",
   alignItems: "center",
   gap: "20px",
-}));
-
-const RfqEditCard = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "start",
-  alignItems: "center",
 }));
 
 const ImageBox = styled(CardMedia)(({ theme }) => ({

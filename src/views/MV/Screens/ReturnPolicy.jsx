@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Container, Typography, styled } from "@mui/material";
 import { useTranslation } from "../../../contexts/MV/LanguageContext";
 import Navbar from "../LandingPage/Components/Navbar";
 import Footer from "../Footer/Footer";
 import { useGetStaticPagesQuery } from "../../../redux/MV/api/cmsApiSlice";
 import Loader from "../CommonComponents/Loader";
-import { formatDate, formatDateString } from "../../../utils/MV";
+import { formatDate } from "../../../utils/MV";
 import parse from "html-react-parser";
 
 function ReturnPolicy() {
@@ -114,7 +114,7 @@ const Wrapper = styled(Container)(({ theme }) => ({
   margin: "30px auto",
 }));
 
-const DataWrapper = styled(Box)(({ theme }) => ({
+const DataWrapper = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -126,17 +126,6 @@ const Heading = styled(Typography)({
   fontSize: "2.2rem",
   fontWeight: "800",
   color: "#0a0a33",
-});
-const DataText = styled(Typography)({
-  fontSize: "16px",
-  fontWeight: "500",
-  color: "#000",
-  textAlign: "start",
-});
-const SubHeading = styled(Typography)({
-  fontSize: "18px",
-  fontWeight: "700",
-  color: "#000",
 });
 
 export default ReturnPolicy;

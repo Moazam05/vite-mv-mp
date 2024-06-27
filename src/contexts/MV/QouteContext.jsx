@@ -1,20 +1,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setQuoteProducts } from "../../redux/MV/cart/cartSlice";
 
 const QouteContext = createContext();
 
 export function QuoteProvider({ children }) {
+  const dispatch = useDispatch();
+
   const [qouteProducts, setqouteProducts] = useState([]);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem("qouteProducts");
     if (storedProducts) {
       setqouteProducts(JSON.parse(storedProducts));
+      dispatch(setQuoteProducts(JSON.parse(storedProducts)));
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("qouteProducts", JSON.stringify(qouteProducts));
-  }, [qouteProducts]);
+  // useEffect(() => {
+  //   localStorage.setItem("qouteProducts", JSON.stringify(qouteProducts));
+  // }, [qouteProducts]);
 
   const addToQoute = (product) => {
     // Check if the product already exists in the cart
@@ -29,9 +34,21 @@ export function QuoteProvider({ children }) {
         return p;
       });
       setqouteProducts(updatedqouteProducts);
+      dispatch(setQuoteProducts(updatedqouteProducts));
+      localStorage.setItem(
+        "qouteProducts",
+        JSON.stringify(updatedqouteProducts)
+      );
     } else {
       // If the product doesn't exist, add it to the cart with quantity 1
       setqouteProducts([...qouteProducts, { ...product, quantity: 1 }]);
+      dispatch(
+        setQuoteProducts([...qouteProducts, { ...product, quantity: 1 }])
+      );
+      localStorage.setItem(
+        "qouteProducts",
+        JSON.stringify([...qouteProducts, { ...product, quantity: 1 }])
+      );
     }
   };
 
@@ -44,6 +61,8 @@ export function QuoteProvider({ children }) {
     });
 
     setqouteProducts(updatedqouteProducts);
+    dispatch(setQuoteProducts(updatedqouteProducts));
+    localStorage.setItem("qouteProducts", JSON.stringify(updatedqouteProducts));
   };
 
   const decrementByQouteId = (id) => {
@@ -63,6 +82,8 @@ export function QuoteProvider({ children }) {
       .filter((product) => product !== null); // Remove null values
 
     setqouteProducts(updatedqouteProducts);
+    dispatch(setQuoteProducts(updatedqouteProducts));
+    localStorage.setItem("qouteProducts", JSON.stringify(updatedqouteProducts));
   };
 
   const removeFromQoute = (id) => {
@@ -71,6 +92,8 @@ export function QuoteProvider({ children }) {
     );
 
     setqouteProducts(updatedqouteProducts);
+    dispatch(setQuoteProducts(updatedqouteProducts));
+    localStorage.setItem("qouteProducts", JSON.stringify(updatedqouteProducts));
   };
 
   const calculateTotalQoutePrice = () => {
@@ -84,7 +107,7 @@ export function QuoteProvider({ children }) {
 
   const emptyQoute = () => {
     setqouteProducts([]);
-
+    dispatch(setQuoteProducts([]));
     localStorage.removeItem("qouteProducts");
   };
 

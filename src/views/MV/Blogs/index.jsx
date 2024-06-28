@@ -68,7 +68,7 @@ const Blogs = () => {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                   borderRadius: "8px",
                   cursor: "pointer",
-                  height: "420px",
+                  // height: "420px",
                   transition: "transform 0.2s",
                   backgroundColor: "fff",
                 }}

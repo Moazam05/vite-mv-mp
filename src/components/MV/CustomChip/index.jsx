@@ -141,7 +141,7 @@ const CustomChip = ({ label }) => {
   };
 
   const chipStyle = {
-    width: "100px",
+    width: "110px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

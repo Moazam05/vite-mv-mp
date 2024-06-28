@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiMVSlice = createApi({
-  reducerPath: "api",
+  reducerPath: "mvApi", // Ensure unique and descriptive reducerPath
 
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_REACT_APP_MV_API_URL,
@@ -16,6 +16,6 @@ export const apiMVSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["RFQ"],
-  endpoints: () => ({}),
+  tagTypes: ["RFQ"], // Define tag types as needed
+  endpoints: () => ({}), // Define endpoints as needed
 });

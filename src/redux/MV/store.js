@@ -19,5 +19,5 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(apiSlice.middleware),
+    }).concat(apiSlice.middleware, apiMVSlice.middleware), // Include middleware for both API slices
 });

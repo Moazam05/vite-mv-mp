@@ -42,6 +42,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css/free-mode";
 import "swiper/css";
+import Loader from "../CommonComponents/Loader";
 
 const priceRange = [
   "All Price",
@@ -68,7 +69,7 @@ const Banner = {
 
 const Vendordetail = () => {
   const token = window.localStorage.getItem("mp-user-token");
-  const { handleLoader } = useLoaderContext();
+  const { loading, handleLoader } = useLoaderContext();
 
   const [vendorSeller, setVendorSeller] = useState([]);
   const { translate } = useTranslation();
@@ -114,23 +115,24 @@ const Vendordetail = () => {
   const { slug } = useParams();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
-  const fetchVendorSeller = (slug) => {
+  const fetchVendorSeller = async (slug) => {
     handleLoader(true);
-    axios
-      .get(`${baseUrl}/mv/api/store/profile/${slug}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((response) => {
-        setVendorSeller(response.data);
-        handleLoader(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        handleLoader(false);
-      });
+    try {
+      const response = await axios.get(
+        `${baseUrl}/mv/api/store/profile/${slug}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      setVendorSeller(response.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleLoader(false);
+    }
   };
 
   useEffect(() => {
@@ -145,6 +147,7 @@ const Vendordetail = () => {
 
   return (
     <>
+      {loading && <Loader />}
       <Navbar />
       <Wrapper maxWidth={false}>
         {isSmallScreen ? (

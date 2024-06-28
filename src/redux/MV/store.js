@@ -4,10 +4,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
 import cartReducer from "./cart/cartSlice";
 import { apiSlice } from "./api/apiSlice";
+import { apiMVSlice } from "./api/apiMVSlice";
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer, // For API Integration
+    [apiMVSlice.reducerPath]: apiMVSlice.reducer, // For API Integration
 
     auth: authReducer,
     cart: cartReducer,

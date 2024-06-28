@@ -169,6 +169,8 @@ const Qoute = () => {
     };
     try {
       const create = await createRFQ(payload);
+      console.log("create", create);
+
       if (!create?.error) {
         toast.success("RFQ Request submitted successfully!");
         emptyQoute();
@@ -180,7 +182,7 @@ const Qoute = () => {
         toast.error("Something went wrong", "error");
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 
